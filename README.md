@@ -5,13 +5,33 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
+git clone https://github.com/tejas-2706/bolt-app.git
+```
+
+```bash
+npm install
+```
+
+```bash
+docker volume create boltdata
+```
+
+```bash
+docker run -d -p 5432:5432  -e POSTGRES_PASSWORD=mysecretpassword -v boltdata:/var/lib/postgresql/data postgres
+```
+
+```bash
+npx prisma migrate dev  
+```
+
+```bash
+npx prisma generate 
+```
+
+# Set the .env file , by taking reference from .sample.env before running the project 
+
+```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
