@@ -13,9 +13,11 @@ import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useridAtom } from '@/store/atoms/details'
+import { useRouter } from 'next/navigation'
 const Navbar = () => {
     const {isSignedIn , user} = useUser();
     const setUserId = useSetAtom(useridAtom);
+    const router = useRouter();
     useEffect(()=>{
         if (isSignedIn && user){
             fetch("/api/auth", {
@@ -31,7 +33,8 @@ const Navbar = () => {
     },[isSignedIn,user])
     return (
         <div className='flex justify-between p-6'>
-            <div className='text-black text-2xl font-semibold dark:text-white'>
+            <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer'
+            onClick={()=>{router.push('/')}}>
                 bolt
             </div>
             <div className='flex gap-2 justify-center items-center'>
