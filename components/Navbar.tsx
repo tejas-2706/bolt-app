@@ -37,12 +37,10 @@ const Navbar = () => {
             <div className='flex gap-2 justify-center items-center'>
                 <div className='px-2'>
                 <SignedOut>
-                    <Button variant={"outline"} asChild>
-                    <SignInButton />
-                    </Button>
-                    <Button style={{backgroundColor:Colors.BLUE}} asChild >
-                    <SignUpButton />
-                    </Button>
+                    <div className='flex gap-4'>
+                    <SignInButton><Button variant={"outline"} className='hover:cursor-pointer'>SignIn</Button></SignInButton>
+                    <SignUpButton><Button style={{backgroundColor:Colors.BLUE}} className='hover:cursor-pointer'>SignUp</Button></SignUpButton>
+                    </div>
                 </SignedOut>
                 <SignedIn>
                     <UserButton />
