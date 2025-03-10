@@ -1,7 +1,7 @@
 "use client"
 import { Textarea } from "@/components/ui/textarea"
-import { PromptAtom, Role, useridAtom } from "@/store/atoms/details";
-import { useAtomValue, useSetAtom } from "jotai";
+import { PromptAtom, Role, textvalueAtom, useridAtom } from "@/store/atoms/details";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowRight, Divide } from "lucide-react";
@@ -14,7 +14,7 @@ import AuthPopUp from "./AuthPopUp";
 
 export function PromptArea() {
   const userId = useAtomValue(useridAtom);
-  const [textvalue, setTextvalue] = useState("");
+  const [textvalue, setTextvalue] = useAtom(textvalueAtom);
   const setPromptvalue = useSetAtom(PromptAtom);
   const router = useRouter();
   const user = useUser()

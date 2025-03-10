@@ -12,6 +12,8 @@ interface Prompt{
 
 export const useridAtom = atom("");
 
+export const textvalueAtom = atom("");
+
 export const PromptAtom = atom<Prompt[]>([
     {
         role: Role.user,

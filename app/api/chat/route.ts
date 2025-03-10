@@ -24,3 +24,22 @@ export async function POST(req:NextRequest){
         return NextResponse.json({message: "Something Went Wrong"}, {status: 400})
     }
 }
+
+
+export async function GET(req:NextRequest) {
+    const chatId = req.nextUrl.searchParams.get("chatId");
+    if(!chatId){
+        return NextResponse.json({message: "ChatId is required"}, {status: 400});
+    }
+    console.log("Gotted ID", chatId);
+    
+    const chatHistory = await prisma.chat.findFirst({
+        where:{
+            id: chatId
+        },
+        include: {
+            prompts: true
+        }
+    });
+    return NextResponse.json({chatHistory})
+}
