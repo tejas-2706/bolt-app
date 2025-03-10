@@ -17,7 +17,8 @@ docker volume create boltdata
 ```
 
 ```bash
-docker run -d -p 5432:5432  -e POSTGRES_PASSWORD=mysecretpassword -v boltdata:/var/lib/postgresql/data postgres
+docker run -d -p 5432:5432  -e POSTGRES_PASSWORD=mysecretpassword 
+-v boltdata:/var/lib/postgresql/data postgres
 ```
 
 ```bash
@@ -28,7 +29,7 @@ npx prisma migrate dev
 npx prisma generate 
 ```
 
-# Set the .env file , by taking reference from .sample.env before running the project 
+## Set the .env file , by taking reference from .sample.env before running the project 
 
 ```bash
 npm run dev
