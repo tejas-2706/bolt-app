@@ -8,6 +8,7 @@ import { Loader2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 function ChatHistory({isloading}:{isloading:boolean}) {
   const params = useParams<{ tag: string; id: string }>();
@@ -43,7 +44,9 @@ function ChatHistory({isloading}:{isloading:boolean}) {
             <div className='p-2'> {value.role === "user" && user.user?.imageUrl ? <Image src={user.user?.imageUrl} alt='value.role' width={20} height={20} className='rounded-full' /> :
               <Image src={'/ai.jpeg'} alt='value.role' width={60} height={60} className='rounded-full' />
             }</div>
-            <h2 className='text-wrap'>{value.content}</h2>
+            <h2 className='flex flex-col'>
+            <ReactMarkdown>{value.content}</ReactMarkdown>
+            </h2>
           </div>
             }
           </div>

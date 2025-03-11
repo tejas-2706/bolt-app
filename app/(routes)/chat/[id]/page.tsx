@@ -1,4 +1,5 @@
 import { ChatSidebar } from "@/components/ChatSidebar";
+import CodeView from "@/components/CodeView";
 
 export default function() {
     // useEffect(()=>{
@@ -10,7 +11,7 @@ export default function() {
             <ChatSidebar/>
             </div>
             <div className="flex-1">
-hello
+                <CodeView/>
             </div>
         </div>
     )
