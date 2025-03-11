@@ -8,10 +8,12 @@ import { ArrowRight } from "lucide-react";
 import axios from "axios"
 import ChatHistory from "./ChatHistory";
 import Prompt from "@/data/Prompt";
+import { useParams } from "next/navigation";
 
 export function ChatSidebar() {
     const [textvalue, setTextvalue] = useAtom(textvalueAtom);
     const [Promptvalue,setPromptvalue] = useAtom(PromptAtom);
+    const params = useParams<{ tag: string; id: string }>();
     const [isloading, setIsloading] = useState(false);
     const newPrompt = {
         role: Role.user,
@@ -22,15 +24,13 @@ export function ChatSidebar() {
             role: Role.user,
             content: textvalue
         }])
-        // if (userId && user.isSignedIn) {
-        //     const response = await axios.post("/api/chat", {
-        //         userId: userId,
-        //         prompt: newPrompt
-        //     });
-        //     const Chat_id = await response.data.chatId;
-        //     console.log(Chat_id);
-        //     router.push(`chat/${Chat_id}`)
-        // }
+        // DB add of User prompt 
+        const user_prompt_db_add = await axios.post('/api/ai-response', {
+            chatId: params.id,
+            role: Role.user,
+            prompt: textvalue
+        });
+        console.log("Prompt Id of User Message = ", user_prompt_db_add.data.promptid);
     }
     const GetAIResponse = async () => {
         setIsloading(true);
@@ -42,10 +42,17 @@ export function ChatSidebar() {
             role: Role.system,
             content: result.data.result
         }])
+        // DB add of AI prompt 
         // AI_SYSTEM PROMPT API CALL UPDATE
-
-        console.log(result.data.result);
         setIsloading(false);
+        const ai_prompt_db_add = await axios.post('/api/ai-response', {
+            chatId: params.id,
+            role: Role.system,
+            prompt: result.data.result
+        });
+        console.log("Ai Response = ", result.data.result);
+        console.log("Prompt Id of System Message = ", ai_prompt_db_add.data.promptid);
+        
     }
     useEffect(() => {
       if(Promptvalue?.length > 0){
@@ -85,6 +92,6 @@ export function ChatSidebar() {
                 </div>
             </div>
         </div>
-                        </>
+        </>
     )
 }
