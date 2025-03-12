@@ -2,6 +2,7 @@
 import Colors from '@/data/Colors';
 import { PromptAtom, Role } from '@/store/atoms/details';
 import { useUser } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import axios from 'axios';
 import { useAtom } from 'jotai';
 import { Loader2Icon } from 'lucide-react';
@@ -40,7 +41,7 @@ function ChatHistory({isloading}:{isloading:boolean}) {
               <h2>Generating Your Resonse ...</h2>
             </div> 
             :
-            <div className='flex hover:cursor-pointer rounded-2xl p-1' style={{ backgroundColor: Colors.CHAT_BACKGROUND }}>
+            <div className='flex hover:cursor-pointer rounded-2xl p-1bg-white dark:bg-[#272727] border shadow-lg' >
             <div className='p-2'> {value.role === "user" && user.user?.imageUrl ? <Image src={user.user?.imageUrl} alt='value.role' width={20} height={20} className='rounded-full' /> :
               <Image src={'/ai.jpeg'} alt='value.role' width={60} height={60} className='rounded-full' />
             }</div>

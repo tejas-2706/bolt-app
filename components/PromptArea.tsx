@@ -23,13 +23,13 @@ export function PromptArea() {
     content: textvalue
   };
   const [isSignInVisible, setSignInVisible] = useState(false);
-  const PromptHandler = async() => {
-    if (!userId && !user.isSignedIn){
+  const PromptHandler = async () => {
+    if (!userId && !user.isSignedIn) {
       toast.warning("Please Login!!", {
         description: "Login to use the App",
         action: {
           label: "Login",
-          onClick: () => {setSignInVisible(true)}
+          onClick: () => { setSignInVisible(true) }
         }
       })
     }
@@ -37,7 +37,7 @@ export function PromptArea() {
       role: Role.user,
       content: textvalue
     }])
-    if(userId && user.isSignedIn) {
+    if (userId && user.isSignedIn) {
       const response = await axios.post("/api/chat", {
         userId: userId,
         prompt: newPrompt
@@ -49,25 +49,25 @@ export function PromptArea() {
   }
   return (
     <div>
-        {isSignInVisible ? (
+      {isSignInVisible ? (
         <div>
-          <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible}/>
+          <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible} />
         </div>
-      ):
-  <div className="flex w-[500px] gap-2">
-      <div className="w-full">
-        <h2 className="text-4xl pb-6">{Lookup.HERO_HEADING}</h2>
-        <label className="text-black dark:text-gray-400" htmlFor="">{Lookup.HERO_DESC}</label>
-        <Textarea className="h-[120px]" placeholder="Type your prompt here." id="message"
-          onChange={(e) => { setTextvalue(e.target.value) }}
-        />
-      </div>
-      <div className="flex items-center">
-      <Button className={`hover:cursor-pointer ${!textvalue? 'hidden': ''}`} 
-      onClick={()=>PromptHandler()}
-      ><ArrowRight/></Button>
-      </div>
-    </div>}
+      ) :
+        <div className="flex w-[500px] gap-2">
+          <div className="w-full">
+            <h2 className="text-4xl pb-6">{Lookup.HERO_HEADING}</h2>
+            <label className="text-black dark:text-gray-400" htmlFor="">{Lookup.HERO_DESC}</label>
+            <Textarea className="h-[120px]" placeholder="Type your prompt here." id="message"
+              onChange={(e) => { setTextvalue(e.target.value) }}
+            />
+          </div>
+          <div className="flex items-center">
+            <Button className={`hover:cursor-pointer ${!textvalue ? 'hidden' : ''}`}
+              onClick={() => PromptHandler()}
+            ><ArrowRight /></Button>
+          </div>
+        </div>}
     </div>
   )
 }

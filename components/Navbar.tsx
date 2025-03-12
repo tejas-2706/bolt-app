@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className='flex justify-between p-6'>
             <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer'
             onClick={()=>{router.push('/')}}>
-                bolt
+                Bolt
             </div>
             <div className='flex gap-2 justify-center items-center'>
                 <div className='px-2'>

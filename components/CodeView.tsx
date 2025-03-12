@@ -14,6 +14,7 @@ import axios from 'axios';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';
 import { Loader2Icon } from 'lucide-react';
+import { useTheme } from 'next-themes';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -21,6 +22,8 @@ function CodeView() {
     const [promptvalue,setPromptvalue] = useAtom(PromptAtom);
     const isInitialMount = useRef(true);
     const [loading,setLoading] = useState(false);
+    const { theme, setTheme } = useTheme()
+    const ptheme = theme === 'light' ? 'light' : 'dark';
     // const GenerateCode = async() => {
     //     const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT
     //     // const PROMPT = JSON.stringify(promptvalue)
@@ -75,6 +78,8 @@ function CodeView() {
       params.id&&GetFiles()
     }, [params.id])
     
+// Working one Just commented for no APi request to GOOO
+
     useEffect(()=>{
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -87,10 +92,11 @@ function CodeView() {
             }
         }
     },[promptvalue])
+
     return (
         <div className='relative'>
-            <div className='bg-[#181818] w-full p-2 border'>
-                <div className='flex items-center justify-center flex-wrap shrink-0 bg-black p-1 w-[140px] gap-3 rounded-full'>
+            <div className='dark:bg-[#181818] w-full p-2 border'>
+                <div className='flex items-center justify-center flex-wrap shrink-0 dark:bg-black p-1 w-[140px] gap-3 rounded-full'>
                     <h2
                         onClick={() => { setActivetab('code') }}
                         className={`text-sm cursor-pointer ${activetab == 'code' && ' bg-blue-500 opacity-80 p-1 px-2 rounded-full'}`}>Code</h2>
@@ -102,7 +108,7 @@ function CodeView() {
             <SandpackProvider 
             files={files}
             template="react" 
-            theme={'dark'}
+            theme={ptheme}
             customSetup={{
                 dependencies:{
                     ...Lookup.DEPENDANCY
@@ -111,6 +117,7 @@ function CodeView() {
             options={{
                 externalResources:['https://cdn.tailwindcss.com']
             }}
+            
             >
                 <SandpackLayout>
                     {activetab == 'code'? 

@@ -54,6 +54,9 @@ export function ChatSidebar() {
         console.log("Prompt Id of System Message = ", ai_prompt_db_add.data.promptid);
         
     }
+
+    // Working one Just commented for no APi request to GOOO
+
     useEffect(() => {
       if(Promptvalue?.length > 0){
         const role = Promptvalue[Promptvalue?.length - 1].role;
