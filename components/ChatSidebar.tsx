@@ -8,18 +8,36 @@ import { ArrowRight } from "lucide-react";
 import axios from "axios"
 import ChatHistory from "./ChatHistory";
 import Prompt from "@/data/Prompt";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+export const countToken = (inputText:string) => {
+    return inputText.trim().split(/\s+/).filter((word:string) => word).length;
+}
 
 export function ChatSidebar() {
     const [textvalue, setTextvalue] = useAtom(textvalueAtom);
     const [Promptvalue,setPromptvalue] = useAtom(PromptAtom);
     const params = useParams<{ tag: string; id: string }>();
     const [isloading, setIsloading] = useState(false);
-    const newPrompt = {
-        role: Role.user,
-        content: textvalue
-    };
+    const user_Id = useAtomValue(useridAtom);
+    const user_token = useAtomValue(useridAtom);
+    const router = useRouter();
+    // const newPrompt = {
+    //     role: Role.user,
+    //     content: textvalue
+    // };
     const PromptHandler = async () => {
+        if(Number(user_token) < 10){
+            toast.warning("Insufficient Token", {
+                description: "Please Purchase Some Tokens to continue !!",
+                action: {
+                  label: "Buy Token",
+                  onClick: () => { router.push('/pricing') }
+                }
+              });
+            return ;
+        }
         setPromptvalue((prevprompt) => [...prevprompt, {
             role: Role.user,
             content: textvalue
@@ -44,6 +62,18 @@ export function ChatSidebar() {
         }])
         // DB add of AI prompt 
         // AI_SYSTEM PROMPT API CALL UPDATE
+        console.log("result to calc token", result.data.resuilt);
+        
+         // CHECKING TOKEN CALCULATION USED
+        const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(result.data.result)));
+        console.log("Sending to chatsidebar /api/user-tokens:", { userId: user_Id, token: calculated_token });
+        if(calculated_token){
+            console.log("Inside chatsidebar to /api/user-tokens:", { userId: user_Id, token: calculated_token });
+            const update_user_token = await axios.post('/api/user-tokens', {
+                token : calculated_token
+            });
+        }
+
         setIsloading(false);
         const ai_prompt_db_add = await axios.post('/api/ai-response', {
             chatId: params.id,

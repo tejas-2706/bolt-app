@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     SignInButton,
     SignUpButton,
@@ -12,45 +12,59 @@ import Colors from '@/data/Colors'
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useridAtom } from '@/store/atoms/details'
+import { useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useRouter } from 'next/navigation'
 const Navbar = () => {
-    const {isSignedIn , user} = useUser();
-    const setUserId = useSetAtom(useridAtom);
+    const { isSignedIn, user } = useUser();
+    const [UserId, setUserId] = useAtom(useridAtom);
+    const [UserToken, setUserToken] = useAtom(usertokenAtom);
     const router = useRouter();
-    useEffect(()=>{
-        if (isSignedIn && user){
+    const hasFetchedRef = useRef(false);
+    useEffect(() => {
+        if (!hasFetchedRef.current && isSignedIn && user) {
+            hasFetchedRef.current = true;
             fetch("/api/auth", {
                 method: "POST",
             })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("userId", data.uuid);   
-                setUserId(data.uuid);
-            })
-            .catch((error) => console.error(error));
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("userId from api/auth", data.uuid);
+                    setUserId(data.uuid);
+                    setUserToken(data.user_token);
+                    console.log("IDddddddddd", UserId);
+
+                })
+                .catch((error) => console.error(error));
         }
-    },[isSignedIn,user])
+    }, [isSignedIn, user])
     return (
         <div className='flex justify-between p-6'>
             <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer'
-            onClick={()=>{router.push('/')}}>
+                onClick={() => { router.push('/') }}>
                 Bolt
             </div>
             <div className='flex gap-2 justify-center items-center'>
+                <div className='flex gap-2'>
+                    {/* <Button variant={"outline"}>{UserId ? UserId : "Loading ID..."}</Button> */}
+                    <Button variant={"outline"} 
+                    onClick={()=>{router.push('/pricing')}}
+                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '
+                    >My Subscription</Button>
+                    <Button variant={"ghost"}>{UserToken}</Button>
+                </div>
                 <div className='px-2'>
-                <SignedOut>
-                    <div className='flex gap-4'>
-                    <SignInButton><Button variant={"outline"} className='hover:cursor-pointer'>SignIn</Button></SignInButton>
-                    <SignUpButton><Button style={{backgroundColor:Colors.BLUE}} className='hover:cursor-pointer'>SignUp</Button></SignUpButton>
-                    </div>
-                </SignedOut>
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
+                    <SignedOut>
+                        <div className='flex gap-4'>
+                            <SignInButton><Button variant={"outline"} className='hover:cursor-pointer'>SignIn</Button></SignInButton>
+                            <SignUpButton><Button style={{ backgroundColor: Colors.BLUE }} className='hover:cursor-pointer'>SignUp</Button></SignUpButton>
+                        </div>
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
                 </div>
                 <div>
-                    <ModeToggle/>
+                    <ModeToggle />
                 </div>
             </div>
         </div>

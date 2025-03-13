@@ -1,8 +1,8 @@
 "use client"
 import { Textarea } from "@/components/ui/textarea"
-import { PromptAtom, Role, textvalueAtom, useridAtom } from "@/store/atoms/details";
+import { PromptAtom, Role, textvalueAtom, useridAtom, usertokenAtom } from "@/store/atoms/details";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowRight, Divide } from "lucide-react";
 import axios from "axios"
@@ -18,6 +18,8 @@ export function PromptArea() {
   const setPromptvalue = useSetAtom(PromptAtom);
   const router = useRouter();
   const user = useUser()
+  const setUserToken = useSetAtom(usertokenAtom);
+  const user_token = useAtomValue(usertokenAtom);
   const newPrompt = {
     role: Role.user,
     content: textvalue
@@ -33,6 +35,16 @@ export function PromptArea() {
         }
       })
     }
+    if(Number(user_token) < 10){
+      toast.warning("Insufficient Token", {
+          description: "Please Purchase Some Tokens to continue !!",
+          action: {
+            label: "Buy Token",
+            onClick: () => { router.push('/pricing') }
+          }
+        });
+      return ;
+  }
     setPromptvalue((prevprompt) => [...prevprompt, {
       role: Role.user,
       content: textvalue
@@ -47,6 +59,17 @@ export function PromptArea() {
       router.push(`chat/${Chat_id}`)
     }
   }
+
+  const GetUserTokenDetails = async() =>{
+    const response = await axios.get(`/api/user-tokens?userId=${userId}`);
+    const user_token = response.data.user_latest_token;
+    setUserToken(Number(user_token));
+  }
+
+  useEffect(()=>{
+    userId&&GetUserTokenDetails();
+  },[]);
+
   return (
     <div>
       {isSignInVisible ? (

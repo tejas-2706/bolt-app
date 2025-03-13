@@ -1,11 +1,13 @@
 import { Button } from "./ui/button";
-import { MessageCircleCode } from "lucide-react";
+import { MessageCircleCode, Wallet } from "lucide-react";
 import ChatCollection from "./ChatCollection";
 import Colors from "@/data/Colors";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export function AppSidebar() {
+    const router = useRouter();
     return (
         <div className="h-full w-64 text-white flex flex-col" style={{ backgroundColor: Colors.BACKGROUND }}>
             {/* Header */}
@@ -28,8 +30,12 @@ export function AppSidebar() {
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-gray-800">
+            <div className="flex flex-col gap-4 p-4 border-t border-gray-800">
                 {/* Add footer content if needed */}
+                <Button 
+                onClick={()=>{router.push('/pricing')}}
+                className="cursor-pointer"
+                ><Wallet/> My Subscription</Button>
                 <UserButton />
             </div>
         </div>

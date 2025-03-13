@@ -23,11 +23,12 @@ export async function POST() {
                     profileImageUrl: clerkUser?.imageUrl,
                     email: email,
                     firstname: clerkUser?.firstName,
-                    lastname: clerkUser?.lastName
+                    lastname: clerkUser?.lastName,
+                    token:50000
                 }
             });
         }
-        return NextResponse.json({uuid : user?.id})
+        return NextResponse.json({uuid : user?.id, user_token : user?.token});
     }catch(error){
         console.error("Error:", error);
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

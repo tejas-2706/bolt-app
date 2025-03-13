@@ -6,10 +6,12 @@ import Navbar from "./components/Navbar";
 import { dark } from '@clerk/themes'
 import { Toaster } from "sonner";
 import { AppSidebar } from "./components/AppSidebar";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 export const Providers = ({ children }: { children: React.ReactNode }) => {
     return <ClerkProvider
         appearance={{ baseTheme: dark }}
     >
+        <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID??""}}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -33,6 +35,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
                 <Toaster />
             </Provider>
         </ThemeProvider>
+        </PayPalScriptProvider>
     </ClerkProvider>
 }
 

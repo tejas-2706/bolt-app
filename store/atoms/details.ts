@@ -12,6 +12,8 @@ interface Prompt{
 
 export const useridAtom = atom("");
 
+export const usertokenAtom = atom<number>(0);
+
 export const textvalueAtom = atom("");
 
 export const PromptAtom = atom<Prompt[]>([

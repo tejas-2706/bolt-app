@@ -8,13 +8,14 @@ import {
     SandpackFileExplorer,
 } from "@codesandbox/sandpack-react";
 import Lookup from '@/data/Lookup';
-import { useAtom } from 'jotai';
-import { PromptAtom } from '@/store/atoms/details';
+import { useAtom, useAtomValue } from 'jotai';
+import { PromptAtom, useridAtom, usertokenAtom } from '@/store/atoms/details';
 import axios from 'axios';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';
 import { Loader2Icon } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { countToken } from './ChatSidebar';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -24,6 +25,8 @@ function CodeView() {
     const [loading,setLoading] = useState(false);
     const { theme, setTheme } = useTheme()
     const ptheme = theme === 'light' ? 'light' : 'dark';
+    const user_token = useAtomValue(usertokenAtom);
+    const user_Id = useAtomValue(useridAtom);
     // const GenerateCode = async() => {
     //     const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT
     //     // const PROMPT = JSON.stringify(promptvalue)
@@ -64,6 +67,20 @@ function CodeView() {
             fileData: Ai_Response?.files
         });
         console.log(update_files.data);
+
+        // CHECKING TOKEN CALCULATION USED
+        const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
+        console.log(user_token);
+        console.log(Number(countToken(JSON.stringify(Ai_Response))));
+        
+        console.log("Sending to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+        if(calculated_token){
+            console.log("Inside to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+            const update_user_token = await axios.post('/api/user-tokens', {
+                token : calculated_token
+            });
+        }
+
         setLoading(false);
     };
     const GetFiles = async() =>{
