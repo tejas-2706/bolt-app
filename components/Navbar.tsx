@@ -12,7 +12,7 @@ import Colors from '@/data/Colors'
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { useridAtom, usertokenAtom } from '@/store/atoms/details'
+import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useRouter } from 'next/navigation'
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
@@ -20,6 +20,7 @@ const Navbar = () => {
     const [UserToken, setUserToken] = useAtom(usertokenAtom);
     const router = useRouter();
     const hasFetchedRef = useRef(false);
+    const setAction = useSetAtom(ActionAtom);
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
             hasFetchedRef.current = true;
@@ -46,6 +47,14 @@ const Navbar = () => {
             <div className='flex gap-2 justify-center items-center'>
                 <div className='flex gap-2'>
                     {/* <Button variant={"outline"}>{UserId ? UserId : "Loading ID..."}</Button> */}
+                    <Button onClick={()=>{setAction({
+                        actionType:ActionType.export,
+                        timestamp:Date.now()
+                    })}}>Export</Button>
+                    <Button onClick={()=>{setAction({
+                        actionType:ActionType.deploy,
+                        timestamp:Date.now()
+                    })}}>Deploy</Button>
                     <Button variant={"outline"} 
                     onClick={()=>{router.push('/pricing')}}
                     className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '

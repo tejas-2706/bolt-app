@@ -9,13 +9,14 @@ import {
 } from "@codesandbox/sandpack-react";
 import Lookup from '@/data/Lookup';
 import { useAtom, useAtomValue } from 'jotai';
-import { PromptAtom, useridAtom, usertokenAtom } from '@/store/atoms/details';
+import { ActionAtom, PromptAtom, useridAtom, usertokenAtom } from '@/store/atoms/details';
 import axios from 'axios';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';
 import { Loader2Icon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { countToken } from './ChatSidebar';
+import SandPackPreviewClient from './SandPackPreviewClient';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -27,6 +28,7 @@ function CodeView() {
     const ptheme = theme === 'light' ? 'light' : 'dark';
     const user_token = useAtomValue(usertokenAtom);
     const user_Id = useAtomValue(useridAtom);
+    const action = useAtomValue(ActionAtom);
     // const GenerateCode = async() => {
     //     const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT
     //     // const PROMPT = JSON.stringify(promptvalue)
@@ -110,6 +112,9 @@ function CodeView() {
         }
     },[promptvalue])
 
+    useEffect(()=>{
+        setActivetab("preview")
+    },[action])
     return (
         <div className='relative'>
             <div className='dark:bg-[#181818] w-full p-2 border'>
@@ -144,7 +149,7 @@ function CodeView() {
                     </>
                     :
                     <>
-                        <SandpackPreview style={{ height: '80vh'}} showNavigator={true} />
+                        <SandPackPreviewClient/>
                     </>
                     }
                 </SandpackLayout>
