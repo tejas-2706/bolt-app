@@ -19,6 +19,7 @@ interface Action{
     actionType:ActionType,
     timestamp:number
 }
+export const isSignInVisibleAtom = atom<Boolean>(false);
 
 export const useridAtom = atom("");
 

@@ -13,7 +13,7 @@ import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
     const [UserId, setUserId] = useAtom(useridAtom);
@@ -21,6 +21,8 @@ const Navbar = () => {
     const router = useRouter();
     const hasFetchedRef = useRef(false);
     const setAction = useSetAtom(ActionAtom);
+    const params = useParams<{id:string}>();
+    
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
             hasFetchedRef.current = true;
@@ -47,19 +49,23 @@ const Navbar = () => {
             <div className='flex gap-2 justify-center items-center'>
                 <div className='flex gap-2'>
                     {/* <Button variant={"outline"}>{UserId ? UserId : "Loading ID..."}</Button> */}
-                    <Button onClick={()=>{setAction({
+                    {isSignedIn && params.id && <Button onClick={()=>{setAction({
                         actionType:ActionType.export,
                         timestamp:Date.now()
-                    })}}>Export</Button>
-                    <Button onClick={()=>{setAction({
+                    })}}
+                    className='cursor-pointer'
+                    >Export</Button>}
+                    {isSignedIn && params.id &&<Button onClick={()=>{setAction({
                         actionType:ActionType.deploy,
                         timestamp:Date.now()
-                    })}}>Deploy</Button>
-                    <Button variant={"outline"} 
+                    })}}
+                    className='cursor-pointer'
+                    >Deploy</Button>}
+                    {isSignedIn&& <Button variant={"outline"} 
                     onClick={()=>{router.push('/pricing')}}
                     className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '
-                    >My Subscription</Button>
-                    <Button variant={"ghost"}>{UserToken}</Button>
+                    >My Subscription</Button>}
+                    {isSignedIn&&<Button variant={"ghost"}>{UserToken}</Button>}
                 </div>
                 <div className='px-2'>
                     <SignedOut>

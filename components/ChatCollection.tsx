@@ -14,12 +14,12 @@ function ChatCollection() {
         setChatList(user_chats)
     }
     useEffect(() => {
-        user && GetAllUserChats();
-    }, [])
+        user.isSignedIn && GetAllUserChats();
+    }, [user.isSignedIn]);
     return (
         <div>
             <h2 className='text-xl font-medium'>Your Chats</h2>
-            <div>
+            <div className=''>
                 {ChatList ? (
                     ChatList.map((chat: any) => (
                         <Link href={`/chat/${chat.id}`} key={chat.id}>

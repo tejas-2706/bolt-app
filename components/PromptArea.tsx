@@ -1,6 +1,6 @@
 "use client"
 import { Textarea } from "@/components/ui/textarea"
-import { PromptAtom, Role, textvalueAtom, useridAtom, usertokenAtom } from "@/store/atoms/details";
+import { isSignInVisibleAtom, PromptAtom, Role, textvalueAtom, useridAtom, usertokenAtom } from "@/store/atoms/details";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -24,18 +24,20 @@ export function PromptArea() {
     role: Role.user,
     content: textvalue
   };
-  const [isSignInVisible, setSignInVisible] = useState(false);
+  // const [isSignInVisible, setSignInVisible] = useState(false);
+  const [isSignInVisible, setSignInVisible] = useAtom(isSignInVisibleAtom);
   const PromptHandler = async () => {
     if (!userId && !user.isSignedIn) {
+      setSignInVisible(true);
       toast.warning("Please Login!!", {
         description: "Login to use the App",
         action: {
           label: "Login",
           onClick: () => { setSignInVisible(true) }
         }
-      })
+      });
     }
-    if(Number(user_token) < 10){
+    if(Number(user_token) < 10 && user.isSignedIn){
       toast.warning("Insufficient Token", {
           description: "Please Purchase Some Tokens to continue !!",
           action: {
