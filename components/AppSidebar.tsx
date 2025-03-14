@@ -5,13 +5,13 @@ import Colors from "@/data/Colors";
 import Link from "next/link";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { isSignInVisibleAtom } from "@/store/atoms/details";
 
 export function AppSidebar() {
     const router = useRouter();
     const user = useUser();
-    const [isSignInVisible, setSignInVisible] = useAtom(isSignInVisibleAtom);
+    const setSignInVisible = useSetAtom(isSignInVisibleAtom);
     return (
         <div className="h-full w-64 text-white flex flex-col" style={{ backgroundColor: Colors.BACKGROUND }}>
             {/* Header */}
@@ -41,7 +41,7 @@ export function AppSidebar() {
             <div className="flex flex-col gap-4 p-4 border-t border-gray-800">
                 {/* Add footer content if needed */}
                 <Button
-                    onClick={() => { user.isSignedIn? router.push('/pricing') : setSignInVisible(true)}}
+                    onClick={() => user.isSignedIn? router.push('/pricing') : setSignInVisible(true)}
                     className="cursor-pointer"
                 ><Wallet /> My Subscription</Button>
                 <UserButton />

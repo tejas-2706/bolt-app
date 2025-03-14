@@ -10,7 +10,7 @@ export async function POST(req:NextRequest) {
         return NextResponse.json({message:"No token"}, {status:400});
     }
     try {
-        const update_user_token = await prisma.user.update({
+        await prisma.user.update({
             where:{
                 clerkId:userId
             },

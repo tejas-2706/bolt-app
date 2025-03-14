@@ -1,15 +1,19 @@
 "use client"
 import Colors from '@/data/Colors';
-import { PromptAtom, Role } from '@/store/atoms/details';
+import { PromptAtom } from '@/store/atoms/details';
 import { useUser } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
 import axios from 'axios';
 import { useAtom } from 'jotai';
 import { Loader2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+
+interface PromptType {
+  role : string,
+  content: string
+}
 
 function ChatHistory({isloading}:{isloading:boolean}) {
   const params = useParams<{ tag: string; id: string }>();
@@ -19,7 +23,7 @@ function ChatHistory({isloading}:{isloading:boolean}) {
     const response = await axios.get(`/api/chat?chatId=${params.id}`)
     setPromptvalue((prevprompt) => {
       // Extract all prompts from chatHistory and add them to the existing state
-      const newPrompts = response.data.chatHistory.prompts.map((prompt: any) => ({
+      const newPrompts = response.data.chatHistory.prompts.map((prompt: PromptType) => ({
         role: prompt.role,
         content: prompt.content
       }))
@@ -30,7 +34,8 @@ function ChatHistory({isloading}:{isloading:boolean}) {
   }
   useEffect(() => {
     getChatHistory();
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   return (
     <div className='h-[70vh] '>
       {promptvalue.map((value, index) => {

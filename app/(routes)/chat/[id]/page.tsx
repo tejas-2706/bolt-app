@@ -1,10 +1,7 @@
 import { ChatSidebar } from "@/components/ChatSidebar";
 import CodeView from "@/components/CodeView";
 
-export default function() {
-    // useEffect(()=>{
-
-    // },[])
+export default function Chat() {
     return (
         <div className="flex h-[88vh] overflow-hidden">
             <div className="w-[30%] h-full">

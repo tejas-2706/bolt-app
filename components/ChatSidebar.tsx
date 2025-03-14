@@ -1,7 +1,7 @@
 "use client"
 import { Textarea } from "@/components/ui/textarea"
 import { PromptAtom, Role, textvalueAtom, useridAtom } from "@/store/atoms/details";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
@@ -69,7 +69,7 @@ export function ChatSidebar() {
         console.log("Sending to chatsidebar /api/user-tokens:", { userId: user_Id, token: calculated_token });
         if(calculated_token){
             console.log("Inside chatsidebar to /api/user-tokens:", { userId: user_Id, token: calculated_token });
-            const update_user_token = await axios.post('/api/user-tokens', {
+            await axios.post('/api/user-tokens', {
                 token : calculated_token
             });
         }
@@ -94,6 +94,7 @@ export function ChatSidebar() {
             GetAIResponse();
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [Promptvalue])
     
     return (

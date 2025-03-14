@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
     SignInButton,
     SignUpButton,
@@ -11,7 +11,7 @@ import {
 import Colors from '@/data/Colors'
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
 const Navbar = () => {
@@ -39,6 +39,7 @@ const Navbar = () => {
                 })
                 .catch((error) => console.error(error));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn, user])
     return (
         <div className='flex justify-between p-6'>
@@ -55,12 +56,12 @@ const Navbar = () => {
                     })}}
                     className='cursor-pointer'
                     >Export</Button>}
-                    {isSignedIn && params.id &&<Button onClick={()=>{setAction({
+                    {/* {isSignedIn && params.id &&<Button onClick={()=>{setAction({
                         actionType:ActionType.deploy,
-                        timestamp:Date.now()
+                        timestamp:Date.COdeviewnow()
                     })}}
                     className='cursor-pointer'
-                    >Deploy</Button>}
+                    >Deploy</Button>} */}
                     {isSignedIn&& <Button variant={"outline"} 
                     onClick={()=>{router.push('/pricing')}}
                     className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '

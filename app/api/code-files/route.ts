@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: "Chat Id / files are required !!" }, { status: 400 });
     }
     try {
-        const Update_files = await prisma.chat.update({
+        await prisma.chat.update({
             where:{
                 id: chatId
             },

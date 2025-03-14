@@ -2,13 +2,13 @@
 import { Textarea } from "@/components/ui/textarea"
 import { isSignInVisibleAtom, PromptAtom, Role, textvalueAtom, useridAtom, usertokenAtom } from "@/store/atoms/details";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "./ui/button";
-import { ArrowRight, Divide } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import axios from "axios"
 import Lookup from "@/data/Lookup";
 import { useRouter } from "next/navigation";
-import { SignIn, SignInButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import AuthPopUp from "./AuthPopUp";
 
@@ -69,7 +69,11 @@ export function PromptArea() {
   }
 
   useEffect(()=>{
-    userId&&GetUserTokenDetails();
+    if(userId){
+      GetUserTokenDetails();
+    }
+    // userId&&GetUserTokenDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (

@@ -3,8 +3,13 @@ import axios from 'axios'
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
+interface Chat {
+    id: string; // Assuming chat IDs are strings (common in Next.js routing)
+    prompts: { content: string }[]; // Array of prompt objects with a content field
+  }
+
 function ChatCollection() {
-    const [ChatList, setChatList] = useState<any>();
+    const [ChatList, setChatList] = useState<Chat[] | undefined>();
     const user = useUser();
     // const {toggleSidebar} = useSidebar();
     const GetAllUserChats = async () => {
@@ -14,14 +19,16 @@ function ChatCollection() {
         setChatList(user_chats)
     }
     useEffect(() => {
-        user.isSignedIn && GetAllUserChats();
+        if (user.isSignedIn) {
+            GetAllUserChats();
+          }
     }, [user.isSignedIn]);
     return (
         <div>
             <h2 className='text-xl font-medium'>Your Chats</h2>
             <div className=''>
                 {ChatList ? (
-                    ChatList.map((chat: any) => (
+                    ChatList.map((chat: Chat) => (
                         <Link href={`/chat/${chat.id}`} key={chat.id}>
                             <div>
                                 {chat.prompts.length > 0 ? (

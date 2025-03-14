@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 export async function POST() {
@@ -9,7 +9,7 @@ export async function POST() {
     }
 
     try {
-        let user = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 clerkId: userId
             }

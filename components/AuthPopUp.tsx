@@ -4,14 +4,17 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+    DialogTitle
   } from "@/components/ui/dialog"
 import { SignInButton, SignUpButton } from '@clerk/nextjs'
 import { Button } from './ui/button'
 import Lookup from '@/data/Lookup'
   
-function AuthPopUp({isSignInVisible, setSignInVisible}: any) {
+interface isSignedInType {
+  isSignInVisible:boolean;
+  setSignInVisible:(value:boolean) => void;
+}
+function AuthPopUp({isSignInVisible, setSignInVisible} : isSignedInType) {
   return (
     <Dialog open={isSignInVisible} onOpenChange={()=>{setSignInVisible(false)}}>
   <DialogContent> 

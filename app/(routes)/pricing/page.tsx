@@ -3,12 +3,10 @@ import PricingModel from '@/components/PricingModel';
 import Colors from '@/data/Colors';
 import Lookup from '@/data/Lookup'
 import { usertokenAtom } from '@/store/atoms/details';
-import { useUser } from '@clerk/nextjs'
 import { useAtomValue } from 'jotai';
 import React from 'react'
 
 function Pricing() {
-    const userDetails = useUser();
     const Usertokens = useAtomValue(usertokenAtom);
   return (
     <div className=' flex flex-col items-center w-full p-10 md:px-32 lg:px-48'>

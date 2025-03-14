@@ -1,6 +1,5 @@
 import Lookup from '@/data/Lookup'
-import React, { use, useState } from 'react'
-import { Button } from './ui/button'
+import React, {useState } from 'react'
 import Colors from '@/data/Colors'
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import { useUser } from '@clerk/nextjs'
