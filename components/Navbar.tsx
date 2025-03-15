@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     SignInButton,
     SignUpButton,
@@ -14,16 +14,16 @@ import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
-import { Wallet2Icon } from 'lucide-react'
+import { Loader2Icon, Wallet2Icon } from 'lucide-react'
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
     const [UserId, setUserId] = useAtom(useridAtom);
     const [UserToken, setUserToken] = useAtom(usertokenAtom);
+    const [Fetchingtoken, setFetchingtoken] = useState(true);
     const router = useRouter();
     const hasFetchedRef = useRef(false);
     const setAction = useSetAtom(ActionAtom);
     const params = useParams<{id:string}>();
-    
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
             hasFetchedRef.current = true;
@@ -35,8 +35,9 @@ const Navbar = () => {
                     console.log("userId from api/auth", data.uuid);
                     setUserId(data.uuid);
                     setUserToken(data.user_token);
+                    console.log(data.user_token);
+                    setFetchingtoken(false);
                     console.log("IDddddddddd", UserId);
-
                 })
                 .catch((error) => console.error(error));
         }
@@ -69,7 +70,7 @@ const Navbar = () => {
                     ><div className='sm:hidden'><Wallet2Icon/></div>
                     <div className='hidden sm:block'>My Subscription</div>
                     </Button>}
-                    {isSignedIn&&<Button variant={"ghost"}>{UserToken}</Button>}
+                    {isSignedIn&&<Button variant={"ghost"}>{Fetchingtoken? <Loader2Icon className='animate-spin'/> : UserToken}</Button>}
                 </div>
                 <div className='px-2'>
                     <SignedOut>

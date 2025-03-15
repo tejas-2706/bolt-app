@@ -28,7 +28,7 @@ export async function POST() {
                 }
             });
         }
-        return NextResponse.json({uuid : user?.id, user_token : user?.token});
+        return NextResponse.json({uuid : user?.id, user_token : 50000});
     }catch(error){
         console.error("Error:", error);
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

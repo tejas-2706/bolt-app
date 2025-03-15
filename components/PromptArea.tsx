@@ -2,7 +2,7 @@
 import { Textarea } from "@/components/ui/textarea"
 import { isSignInVisibleAtom, PromptAtom, Role, textvalueAtom, useridAtom, usertokenAtom } from "@/store/atoms/details";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import axios from "axios"
@@ -20,6 +20,7 @@ export function PromptArea() {
   const user = useUser()
   const setUserToken = useSetAtom(usertokenAtom);
   const user_token = useAtomValue(usertokenAtom);
+  const [isDisable, setIsDisable] = useState(false);
   const newPrompt = {
     role: Role.user,
     content: textvalue
@@ -37,16 +38,17 @@ export function PromptArea() {
         }
       });
     }
-    if(Number(user_token) < 10 && user.isSignedIn){
+    if (Number(user_token) < 10 && user.isSignedIn) {
       toast.warning("Insufficient Token", {
-          description: "Please Purchase Some Tokens to continue !!",
-          action: {
-            label: "Buy Token",
-            onClick: () => { router.push('/pricing') }
-          }
-        });
-      return ;
-  }
+        description: "Please Purchase Some Tokens to continue !!",
+        action: {
+          label: "Buy Token",
+          onClick: () => { router.push('/pricing') }
+        }
+      });
+      return;
+    }
+    setIsDisable(true);
     setPromptvalue((prevprompt) => [...prevprompt, {
       role: Role.user,
       content: textvalue
@@ -61,21 +63,22 @@ export function PromptArea() {
       setTextvalue('');
       router.push(`chat/${Chat_id}`)
     }
+    setIsDisable(false);
   }
 
-  const GetUserTokenDetails = async() =>{
+  const GetUserTokenDetails = async () => {
     const response = await axios.get(`/api/user-tokens?userId=${userId}`);
     const user_token = response.data.user_latest_token;
     setUserToken(Number(user_token));
   }
 
-  useEffect(()=>{
-    if(userId){
+  useEffect(() => {
+    if (userId) {
       GetUserTokenDetails();
     }
     // userId&&GetUserTokenDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  }, []);
 
   return (
     <div>
@@ -95,9 +98,10 @@ export function PromptArea() {
           </div>
           <div className="flex items-center sm:mt-2 mt-16">
             <Button className={`hover:cursor-pointer ${!textvalue ? 'hidden' : ''}`}
+              disabled={isDisable}
               onClick={() => PromptHandler()}
             ><ArrowRight />
-              </Button>
+            </Button>
           </div>
         </div>}
     </div>
