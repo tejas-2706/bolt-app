@@ -17,7 +17,7 @@ export async function POST() {
         if (!user) {
             const clerkUser = await currentUser();
             const email = clerkUser?.emailAddresses[0]?.emailAddress || "";
-            await prisma.user.create({
+            const new_user = await prisma.user.create({
                 data: {
                     clerkId: userId,
                     profileImageUrl: clerkUser?.imageUrl,
@@ -27,8 +27,10 @@ export async function POST() {
                     token:50000
                 }
             });
+            return NextResponse.json({uuid : new_user.id, user_token : 50000});
         }
-        return NextResponse.json({uuid : user?.id, user_token : 50000});
+// User Already Exists
+        return NextResponse.json({uuid : user?.id, user_token : user?.token});
     }catch(error){
         console.error("Error:", error);
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
