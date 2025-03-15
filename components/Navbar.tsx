@@ -14,6 +14,7 @@ import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
+import { Wallet2Icon } from 'lucide-react'
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
     const [UserId, setUserId] = useAtom(useridAtom);
@@ -64,8 +65,10 @@ const Navbar = () => {
                     >Deploy</Button>} */}
                     {isSignedIn&& <Button variant={"outline"} 
                     onClick={()=>{router.push('/pricing')}}
-                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '
-                    >My Subscription</Button>}
+                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer'
+                    ><div className='sm:hidden'><Wallet2Icon/></div>
+                    <div className='hidden sm:block'>My Subscription</div>
+                    </Button>}
                     {isSignedIn&&<Button variant={"ghost"}>{UserToken}</Button>}
                 </div>
                 <div className='px-2'>

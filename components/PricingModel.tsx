@@ -1,12 +1,12 @@
 import Lookup from '@/data/Lookup'
 import React, {useState } from 'react'
-import Colors from '@/data/Colors'
 import { PayPalButtons } from '@paypal/react-paypal-js'
 import { useUser } from '@clerk/nextjs'
 import { useAtomValue } from 'jotai'
 import { usertokenAtom } from '@/store/atoms/details'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface pricing {
     name: string;
@@ -20,6 +20,7 @@ function PricingModel() {
     const user = useUser();
     const usertokens = useAtomValue(usertokenAtom);
     const [selectedOption, setSelectedOption] = useState<pricing>();
+    const router = useRouter();
     const onPaymentSucces = async() => {
         const token = usertokens + Number(selectedOption?.value);
         console.log(token);
@@ -27,6 +28,10 @@ function PricingModel() {
         await axios.post('/api/user-tokens', {
             token: token
         });
+        toast.success("Thanks for Purchasing the Tokens !!", {
+            description:`You have Successfully Bought ${selectedOption?.tokens} Tokens`,
+        });
+        router.push('/');
     }
 
     const onPaymentFailure = async() => {
@@ -38,7 +43,7 @@ function PricingModel() {
     return (
         <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
             {Lookup.PRICING_OPTIONS.map((pricing:pricing, index) => (
-                <div key={index} className='border p-4 flex flex-col items-center rounded-xl' style={{backgroundColor: Colors.BACKGROUND }}>
+                <div key={index} className='border p-4 flex flex-col items-center rounded-xl dark:bg-[var(--chat-background)]'>
                     <h2 className='font-bold text-2xl'>{pricing.name}</h2>
                     <h2 className='font-medium text-lg p-2'>{pricing.tokens} tokens</h2>
                     <h2 className='text-gray-400 font-light text-center'>{pricing.desc}</h2>

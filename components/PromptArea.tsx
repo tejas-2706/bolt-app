@@ -83,7 +83,7 @@ export function PromptArea() {
           <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible} />
         </div>
       ) :
-        <div className="flex w-[500px] gap-2">
+        <div className="flex sm:w-[500px] gap-2 px-4">
           <div className="w-full">
             <h2 className="text-4xl pb-6">{Lookup.HERO_HEADING}</h2>
             <label className="text-black dark:text-gray-400" htmlFor="">{Lookup.HERO_DESC}</label>
@@ -91,10 +91,11 @@ export function PromptArea() {
               onChange={(e) => { setTextvalue(e.target.value) }}
             />
           </div>
-          <div className="flex items-center">
+          <div className="flex sm:items-center items-end">
             <Button className={`hover:cursor-pointer ${!textvalue ? 'hidden' : ''}`}
               onClick={() => PromptHandler()}
-            ><ArrowRight /></Button>
+            ><ArrowRight />
+              </Button>
           </div>
         </div>}
     </div>

@@ -37,7 +37,7 @@ function ChatHistory({isloading}:{isloading:boolean}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   return (
-    <div className='h-[70vh] '>
+    <div className='sm:h-[70vh] h-[60vh]'>
       {promptvalue.map((value, index) => {
         return (
           <div key={index} className='flex p-2 leading-7' >
