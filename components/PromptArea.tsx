@@ -58,6 +58,7 @@ export function PromptArea() {
       });
       const Chat_id = await response.data.chatId;
       console.log(Chat_id);
+      setTextvalue('');
       router.push(`chat/${Chat_id}`)
     }
   }
@@ -83,15 +84,16 @@ export function PromptArea() {
           <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible} />
         </div>
       ) :
-        <div className="flex sm:w-[500px] gap-2 px-4">
+        <div className="flex sm:w-[530px] gap-2 px-4 my-40">
           <div className="w-full">
             <h2 className="text-4xl pb-6">{Lookup.HERO_HEADING}</h2>
             <label className="text-black dark:text-gray-400" htmlFor="">{Lookup.HERO_DESC}</label>
             <Textarea className="h-[120px]" placeholder="Type your prompt here." id="message"
+              value={textvalue}
               onChange={(e) => { setTextvalue(e.target.value) }}
             />
           </div>
-          <div className="flex sm:items-center items-end">
+          <div className="flex items-center sm:mt-2 mt-16">
             <Button className={`hover:cursor-pointer ${!textvalue ? 'hidden' : ''}`}
               onClick={() => PromptHandler()}
             ><ArrowRight />

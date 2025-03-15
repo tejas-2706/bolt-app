@@ -48,6 +48,7 @@ export function ChatSidebar() {
             role: Role.user,
             prompt: textvalue
         });
+        setTextvalue('');
         console.log("Prompt Id of User Message = ", user_prompt_db_add.data.promptid);
     }
     const GetAIResponse = async () => {
@@ -116,6 +117,7 @@ export function ChatSidebar() {
             <div className="flex w-full gap-2 justify-end mt-auto pb-4">
                 <div className="w-full">
                     <Textarea className="h-[120px]" placeholder="How can we help you ?" id="message"
+                        value={textvalue}
                         onChange={(e) => { setTextvalue(e.target.value) }}
                         />
                 </div>
