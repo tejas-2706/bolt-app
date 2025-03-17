@@ -10,15 +10,6 @@
   initial-value: 0deg;
 }
 
-@theme {
-  --animate-rotate-border: border-rotate 3s linear infinite;
-  @keyframes border-rotate {
-    to {
-      --border-angle: 360deg;
-    }
-  }
-}
-
 @layer base {
   :root {
     --sidebar-background: 0 0% 98%;
@@ -85,6 +76,12 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-chat-background: var(--chat-background); 
   --color-customapp-background: var(--customapp-background);
+  --animate-rotate-border: border-rotate 3s linear infinite;
+  @keyframes border-rotate {
+    to {
+      --border-angle: 360deg;
+    }
+  }
 }
 
 :root {
