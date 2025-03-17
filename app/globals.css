@@ -68,7 +68,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-chat-background: var(--chat-background);
+  --color-chat-background: var(--chat-background); 
+  --color-customapp-background: var(--customapp-background);
 }
 
 :root {
@@ -106,6 +107,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --chat-background: #f0f0f0;
+  --customapp-background: #d5cfcf;
 }
 
 .dark {
@@ -142,6 +144,7 @@
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
   --chat-background: #272727;
+  --customapp-background: #151515;
 }
 
 @layer base {

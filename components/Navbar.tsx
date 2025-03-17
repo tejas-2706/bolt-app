@@ -15,6 +15,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
 import { Loader2Icon, Wallet2Icon } from 'lucide-react'
+import Image from 'next/image'
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
     const [UserId, setUserId] = useAtom(useridAtom);
@@ -45,9 +46,15 @@ const Navbar = () => {
     }, [isSignedIn, user])
     return (
         <div className='flex justify-between p-6'>
-            <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer'
+            <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer hidden sm:block'
                 onClick={() => { router.push('/') }}>
-                Bolt
+                    <span className='flex justify-center items-center gap-2'>
+                <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40}/>  Mythicals.tech
+                    </span>
+            </div>
+            <div className='sm:hidden'
+            onClick={() => { router.push('/') }}>
+                <Image src={'/mythicals.jpg'} alt='logo' width={40} height={40}/>
             </div>
             <div className='flex gap-2 justify-center items-center'>
                 <div className='flex gap-2'>

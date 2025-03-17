@@ -11,11 +11,11 @@ import React, { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 
 interface PromptType {
-  role : string,
+  role: string,
   content: string
 }
 
-function ChatHistory({isloading}:{isloading:boolean}) {
+function ChatHistory({ isloading }: { isloading: boolean }) {
   const params = useParams<{ tag: string; id: string }>();
   const user = useUser();
   const [promptvalue, setPromptvalue] = useAtom(PromptAtom);
@@ -35,25 +35,44 @@ function ChatHistory({isloading}:{isloading:boolean}) {
   useEffect(() => {
     getChatHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, [])
   return (
     <div className='sm:h-[70vh] h-[60vh]'>
       {promptvalue.map((value, index) => {
         return (
           <div key={index} className='flex p-2 leading-7' >
-            {isloading? <div className='flex hover:cursor-pointer rounded-2xl p-4 w-full gap-2 items-center' style={{ backgroundColor: Colors.CHAT_BACKGROUND }}>
-              <Loader2Icon className='animate-spin'/>
+            {isloading ? <div className='flex hover:cursor-pointer rounded-2xl p-4 w-full gap-2 items-center' style={{ backgroundColor: Colors.CHAT_BACKGROUND }}>
+              <Loader2Icon className='animate-spin' />
               <h2>Generating Your Resonse ...</h2>
-            </div> 
-            :
-            <div className='flex hover:cursor-pointer rounded-2xl p-1bg-white dark:bg-[#272727] border shadow-lg' >
-            <div className='p-2'> {value.role === "user" && user.user?.imageUrl ? <Image src={user.user?.imageUrl} alt='value.role' width={20} height={20} className='rounded-full' /> :
-              <Image src={'/ai.jpeg'} alt='value.role' width={60} height={60} className='rounded-full' />
-            }</div>
-            <h2 className='flex flex-col'>
-            <ReactMarkdown>{value.content}</ReactMarkdown>
-            </h2>
-          </div>
+            </div>
+              :
+              <div
+                className="flex items-start gap-2 p-2 rounded-2xl bg-white dark:bg-[#272727] border shadow-lg"
+              >
+                <div className="shrink-0 pt-1">
+                  {value.role === "user" && user.user?.imageUrl ? (
+                    <Image
+                      src={user.user.imageUrl}
+                      alt="user"
+                      width={20}
+                      height={20}
+                      className="rounded-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src="/mythicals.jpg"
+                      alt="assistant"
+                      width={20}
+                      height={20}
+                      className="rounded-full object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex-1 leading-7">
+                  <ReactMarkdown>{value.content}</ReactMarkdown>
+                </div>
+              </div>
+
             }
           </div>
         )

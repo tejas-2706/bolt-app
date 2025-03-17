@@ -7,23 +7,27 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useSetAtom } from "jotai";
 import { isSignInVisibleAtom } from "@/store/atoms/details";
+import Image from "next/image";
 
 export function AppSidebar() {
     const router = useRouter();
     const user = useUser();
     const setSignInVisible = useSetAtom(isSignInVisibleAtom);
     return (
-        <div className="h-full w-64 text-white flex flex-col" style={{ backgroundColor: Colors.BACKGROUND }}>
+        <div className="h-full w-64 text-white flex flex-col bg-[var(--customapp-background)] dark:bg-[var(--customapp-background)] ">
             {/* Header */}
             <Link href={'/'}>
                 <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer p-2 m-4'>
-                    Bolt
+                    <span className='flex justify-center items-center gap-2'>
+                        <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40} />  Mythicals.tech
+                    </span>
                 </div>
             </Link>
 
             {/* New Chat btn */}
             <Link href={'/'} className="px-5">
-                <Button className="w-full mb-4 bg-blue-600 hover:bg-blue-700 cursor-pointer">
+                <Button className="w-full mb-4 dark:bg-purple-500 dark:hover:bg-purple-600 cursor-pointer"
+                onClick={()=>{router.refresh()}}>
                     <MessageCircleCode className="mr-2 h-4 w-4" /> New Chat
                 </Button>
             </Link>
@@ -41,8 +45,8 @@ export function AppSidebar() {
             <div className="flex flex-col gap-4 p-4 border-t border-gray-800">
                 {/* Add footer content if needed */}
                 <Button
-                    onClick={() => user.isSignedIn? router.push('/pricing') : setSignInVisible(true)}
-                    className="cursor-pointer"
+                    className="cursor-pointer dark:bg-purple-500 dark:hover:bg-purple-600 "
+                    onClick={() => user.isSignedIn ? router.push('/pricing') : setSignInVisible(true)}
                 ><Wallet /> My Subscription</Button>
                 <UserButton />
             </div>

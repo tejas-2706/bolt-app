@@ -16,7 +16,6 @@ import {Loader2Icon, Rocket } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { countToken } from './ChatSidebar';
 import SandPackPreviewClient from './SandPackPreviewClient';
-import { toast } from 'sonner';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -29,7 +28,7 @@ function CodeView() {
     const user_token = useAtomValue(usertokenAtom);
     const user_Id = useAtomValue(useridAtom);
     const [action, setAction] = useAtom(ActionAtom);
-    const DeployLink = useAtomValue(DeployLinkAtom);
+    // const DeployLink = useAtomValue(DeployLinkAtom);
     // const GenerateCode = async() => {
     //     const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT
     //     // const PROMPT = JSON.stringify(promptvalue)
@@ -128,10 +127,10 @@ function CodeView() {
                 <div className='flex items-center justify-center flex-wrap shrink-0 dark:bg-black p-1 w-[140px] gap-3 rounded-full'>
                     <h2
                         onClick={() => { setActivetab('code') }}
-                        className={`text-sm cursor-pointer ${activetab == 'code' && ' bg-blue-500 opacity-80 p-1 px-2 rounded-full'}`}>Code</h2>
+                        className={`text-sm cursor-pointer ${activetab == 'code' && ' dark:bg-purple-500 bg-black text-white opacity-80 p-1 px-2 rounded-full'}`}>Code</h2>
                     <h2
                         onClick={() => { setActivetab('preview') }}
-                        className={`text-sm cursor-pointer ${activetab == 'preview' && 'bg-blue-500 opacity-80 p-1 px-2 rounded-full'}`}>Preview</h2>
+                        className={`text-sm cursor-pointer ${activetab == 'preview' && 'dark:bg-purple-500 bg-black text-white opacity-80 p-1 px-2 rounded-full'}`}>Preview</h2>
                 </div>
                 <div>
                     <Rocket 
@@ -142,20 +141,19 @@ function CodeView() {
                             timestamp: Date.now()
                         })
                         setActivetab('preview');
-                        console.log(DeployLink);
-                        try {
-                            if(DeployLink){
-                                navigator.clipboard.writeText(`https://${DeployLink}.csb.app/`);
-                                toast.success("Copied the Deploy url!!",{
-                                    description:"Now, Share the url to visit the Site from any Device!!"
-                                });
-                            }
-                        }catch(error){
-                            console.log("Not Copied", error);
-                        }
+                        // console.log(DeployLink);
+                        // try {
+                        //     if(DeployLink){
+                        //         navigator.clipboard.writeText(`https://${DeployLink}.csb.app/`);
+                        //         toast.success("Copied the Deploy url!!",{
+                        //             description:"Now, Share the url to visit the Site from any Device!!"
+                        //         });
+                        //     }
+                        // }catch(error){
+                        //     console.log("Not Copied", error);
+                        // }
                     }}>
                     </Rocket>
-                    {/* {JSON.stringify(DeployLink)} */}
                 </div>
             </div>
             <SandpackProvider

@@ -24,8 +24,8 @@ function ChatCollection() {
           }
     }, [user.isSignedIn]);
     return (
-        <div>
-            <h2 className='text-xl font-medium'>Your Chats</h2>
+        <div className=''>
+            <h2 className='text-xl font-medium text-black dark:text-white'>Your Chats</h2>
             <div className=''>
                 {ChatList ? (
                     ChatList.map((chat: Chat) => (
@@ -33,7 +33,7 @@ function ChatCollection() {
                             <div>
                                 {chat.prompts.length > 0 ? (
                                     <p
-                                        className='text-gray-400 my-4 hover:text-white cursor-pointer'
+                                        className='text-black dark:text-gray-400 my-4 hover:text-gray-500 dark:hover:text-white cursor-pointer'
                                         // style={{backgroundColor:Colors.CHAT_BACKGROUND}}
                                         >
                                         {chat.prompts[0].content}
@@ -45,7 +45,7 @@ function ChatCollection() {
                         </Link>
                     ))
                 ) : (
-                    <p>NO Chats</p>
+                    <p className='text-black dark:text-white'>NO Chats</p>
                 )}
             </div>
         </div>
