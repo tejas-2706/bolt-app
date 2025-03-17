@@ -8,7 +8,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import Lookup from '@/data/Lookup';
 import { useAtom, useAtomValue } from 'jotai';
-import { ActionAtom, ActionType, DeployLinkAtom, PromptAtom, useridAtom, usertokenAtom } from '@/store/atoms/details';
+import { ActionAtom, ActionType, PromptAtom, useridAtom, usertokenAtom } from '@/store/atoms/details';
 import axios from 'axios';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';

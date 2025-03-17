@@ -1,6 +1,6 @@
-import { ActionAtom, DeployLinkAtom } from '@/store/atoms/details';
+import { ActionAtom } from '@/store/atoms/details';
 import { SandpackPreview, SandpackPreviewRef, useSandpack } from '@codesandbox/sandpack-react'
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import React, { useEffect, useRef } from 'react'
 import { toast } from 'sonner';
 

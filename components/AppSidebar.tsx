@@ -1,7 +1,6 @@
 import { Button } from "./ui/button";
 import { MessageCircleCode, Wallet } from "lucide-react";
 import ChatCollection from "./ChatCollection";
-import Colors from "@/data/Colors";
 import Link from "next/link";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
