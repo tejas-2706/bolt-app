@@ -16,7 +16,7 @@ export function AppSidebar() {
         <div className="h-full w-64 text-white flex flex-col bg-[var(--customapp-background)] dark:bg-[var(--customapp-background)] ">
             {/* Header */}
             <Link href={'/'}>
-                <div className='text-black text-2xl font-semibold dark:text-white hover:cursor-pointer p-2 m-4'>
+                <div className='text-black text-xl font-semibold dark:text-white hover:cursor-pointer p-2 m-4'>
                     <span className='flex justify-center items-center gap-2'>
                         <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40} />  Mythicals.tech
                     </span>

@@ -140,7 +140,7 @@ function CodeView() {
                             actionType: ActionType.deploy,
                             timestamp: Date.now()
                         })
-                        setActivetab('preview');
+                        // setActivetab('preview');
                         // console.log(DeployLink);
                         // try {
                         //     if(DeployLink){
