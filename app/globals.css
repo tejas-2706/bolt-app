@@ -4,10 +4,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 @property --border-angle {
   syntax: '<angle>';
   inherits: false;
   initial-value: 0deg;
+}
+
+.animate-rotate-border {
+  animation: border-rotate 2s linear infinite;
 }
 
 @layer base {
@@ -76,12 +86,12 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-chat-background: var(--chat-background); 
   --color-customapp-background: var(--customapp-background);
-  --animate-rotate-border: border-rotate 3s linear infinite;
+  /* --animate-rotate-border:border-rotate 3s linear infinite;
   @keyframes border-rotate {
     to {
       --border-angle: 360deg;
     }
-  }
+  } */
 }
 
 :root {

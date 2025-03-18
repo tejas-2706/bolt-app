@@ -91,11 +91,17 @@ export function PromptArea() {
           <div className="w-full">
             <h2 className="text-4xl pb-4">{Lookup.HERO_HEADING}</h2>
             <h2 className="text-black dark:text-gray-400 pb-4">{Lookup.HERO_DESC}</h2>
-            <div className="h-[123px] animate-rotate-border bg-purple-500 shadow-lg rounded-lg bg-conic/[from_var(--border-angle)] from-black via-purple-500 to-black p-px">
-            <Textarea className="h-[120px] dark:bg-neutral-900 bg-gray-100 rounded-lg border border-transparent focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none" placeholder="Type your prompt here." id="message"
-              value={textvalue}
-              onChange={(e) => { setTextvalue(e.target.value) }}
-            />
+            {/* <div className="h-[123px] animate-rotate-border bg-purple-500 shadow-lg rounded-lg bg-conic/[from_var(--border-angle)] from-black via-purple-500 to-black p-px"> */}
+            <div
+              className="h-[123px] animate-rotate-border shadow-lg rounded-lg p-px"
+              style={{
+                background: `conic-gradient(from var(--border-angle) at 50% 50%, black, purple, black)`
+              }}
+            >
+              <Textarea className="h-[120px] dark:bg-neutral-900 bg-gray-100 rounded-lg border border-transparent focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none" placeholder="Type your prompt here." id="message"
+                value={textvalue}
+                onChange={(e) => { setTextvalue(e.target.value) }}
+              />
             </div>
           </div>
           <div className="flex items-center sm:mt-2 mt-16">
