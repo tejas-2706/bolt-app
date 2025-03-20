@@ -119,8 +119,10 @@ function CodeView() {
     }, [promptvalue])
 
     useEffect(() => {
+        if(action && (action.actionType === 'deploy' || action?.actionType === 'export'))
         setActivetab("preview")
-    }, [action])
+    }, [action]);
+    
     return (
         <div className='relative'>
             <div className='flex justify-between items-center dark:bg-[#181818] w-full p-2 border'>
@@ -171,7 +173,7 @@ function CodeView() {
 
             >
                 <SandpackLayout>
-                    {activetab == 'code' ?
+                    {activetab === 'code' ?
                         <>
                             <SandpackFileExplorer style={{ height: '80vh' }} />
                             <SandpackCodeEditor style={{ height: '80vh' }} />
