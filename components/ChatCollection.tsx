@@ -1,5 +1,7 @@
+import { refreshChatsAtom } from '@/store/atoms/details';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios'
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
@@ -11,6 +13,7 @@ interface Chat {
 function ChatCollection() {
     const [ChatList, setChatList] = useState<Chat[] | undefined>();
     const user = useUser();
+    const [refreshTrigger] = useAtom(refreshChatsAtom);
     // const {toggleSidebar} = useSidebar();
     const GetAllUserChats = async () => {
         const response = await axios.get('/api/users-chat');
@@ -22,7 +25,7 @@ function ChatCollection() {
         if (user.isSignedIn) {
             GetAllUserChats();
           }
-    }, [user.isSignedIn]);
+    }, [user.isSignedIn,refreshTrigger]);
     return (
         <div className=''>
             <h2 className='text-xl font-medium text-black dark:text-white'>Your Chats</h2>

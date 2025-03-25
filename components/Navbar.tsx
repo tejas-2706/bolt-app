@@ -12,7 +12,7 @@ import Colors from '@/data/Colors'
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
-import { ActionAtom, ActionType, useridAtom, usertokenAtom } from '@/store/atoms/details'
+import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
 import { Loader2Icon, Wallet2Icon } from 'lucide-react'
 import Image from 'next/image'
@@ -24,6 +24,7 @@ const Navbar = () => {
     const router = useRouter();
     const hasFetchedRef = useRef(false);
     const setAction = useSetAtom(ActionAtom);
+    const setRefresh = useSetAtom(refreshChatsAtom);
     const params = useParams<{id:string}>();
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
@@ -47,7 +48,7 @@ const Navbar = () => {
     return (
         <div className='flex justify-between p-6'>
             <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer hidden sm:block'
-                onClick={() => { router.push('/') }}>
+                onClick={() => { router.push('/'); setRefresh((prev)=>prev+1) }}>
                     <span className='flex justify-center items-center gap-2'>
                 <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40}/>  Mythicals.tech
                     </span>

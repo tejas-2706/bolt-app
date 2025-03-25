@@ -12,10 +12,11 @@ import { ActionAtom, ActionType, PromptAtom, useridAtom, usertokenAtom } from '@
 import axios from 'axios';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';
-import {Loader2Icon, Rocket } from 'lucide-react';
+import { Loader2Icon, Rocket } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { countToken } from './ChatSidebar';
 import SandPackPreviewClient from './SandPackPreviewClient';
+import { toast } from 'sonner';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -43,47 +44,53 @@ function CodeView() {
     //     // setFiles(mergedFiles);
     // }
     const GenerateCode = async () => {
-        setLoading(true)
-        const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT;
+        try {
 
-        const result = await axios.post('/api/gen-ai-code', {
-            prompt: PROMPT
-        });
+            setLoading(true)
+            const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT;
 
-        console.log("Files / Code generated", result.data);
-
-        // Parse the markdown-wrapped JSON
-        const jsonMatch = result.data.match(/```\s*json\s*([\s\S]*?)\s*```/);
-        if (!jsonMatch || !jsonMatch[1]) {
-            throw new Error("No valid JSON found in the response");
-        }
-        const parsedResponse = JSON.parse(jsonMatch[1].trim());
-
-        const Ai_Response = parsedResponse;
-        const mergedFiles = { ...Lookup.DEFAULT_FILE, ...Ai_Response?.files };
-        setFiles(mergedFiles);
-        // Files Updation Every Time
-        console.log("About to update files with chatId:", params.id, "and files:", Ai_Response?.files);
-        const update_files = await axios.post('/api/code-files', {
-            chatId: params.id,
-            fileData: Ai_Response?.files
-        });
-        console.log(update_files.data);
-
-        // CHECKING TOKEN CALCULATION USED
-        const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
-        console.log(user_token);
-        console.log(Number(countToken(JSON.stringify(Ai_Response))));
-
-        console.log("Sending to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
-        if (calculated_token) {
-            console.log("Inside to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
-            await axios.post('/api/user-tokens', {
-                token: calculated_token
+            const result = await axios.post('/api/gen-ai-code', {
+                prompt: PROMPT
             });
-        }
 
-        setLoading(false);
+            console.log("Files / Code generated", result.data);
+
+            // Parse the markdown-wrapped JSON
+            const jsonMatch = result.data.match(/```\s*json\s*([\s\S]*?)\s*```/);
+            if (!jsonMatch || !jsonMatch[1]) {
+                throw new Error("No valid JSON found in the response");
+            }
+            const parsedResponse = JSON.parse(jsonMatch[1].trim());
+
+            const Ai_Response = parsedResponse;
+            const mergedFiles = { ...Lookup.DEFAULT_FILE, ...Ai_Response?.files };
+            setFiles(mergedFiles);
+            // Files Updation Every Time
+            console.log("About to update files with chatId:", params.id, "and files:", Ai_Response?.files);
+            const update_files = await axios.post('/api/code-files', {
+                chatId: params.id,
+                fileData: Ai_Response?.files
+            });
+            console.log(update_files.data);
+
+            // CHECKING TOKEN CALCULATION USED
+            const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
+            console.log(user_token);
+            console.log(Number(countToken(JSON.stringify(Ai_Response))));
+
+            console.log("Sending to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+            if (calculated_token) {
+                console.log("Inside to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+                await axios.post('/api/user-tokens', {
+                    token: calculated_token
+                });
+            }
+
+            setLoading(false);
+        } catch (error) {
+            toast.error("Error occured while generating the code !! Retry again !!")
+            console.log("Error occured while generating the code - ", error);
+        }
     };
     const GetFiles = async () => {
         setLoading(true)
@@ -119,10 +126,10 @@ function CodeView() {
     }, [promptvalue])
 
     useEffect(() => {
-        if(action && (action.actionType === 'deploy' || action?.actionType === 'export'))
-        setActivetab("preview")
+        if (action && (action.actionType === 'deploy' || action?.actionType === 'export'))
+            setActivetab("preview")
     }, [action]);
-    
+
     return (
         <div className='relative'>
             <div className='flex justify-between items-center dark:bg-[#181818] w-full p-2 border'>
@@ -135,26 +142,26 @@ function CodeView() {
                         className={`text-sm cursor-pointer ${activetab == 'preview' && 'dark:bg-purple-500 bg-black text-white opacity-80 p-1 px-2 rounded-full'}`}>Preview</h2>
                 </div>
                 <div>
-                    <Rocket 
-                    className='hover:bg-white hover:text-black cursor-pointer rounded-md'
-                    onClick={() => {
-                        setAction({
-                            actionType: ActionType.deploy,
-                            timestamp: Date.now()
-                        })
-                        // setActivetab('preview');
-                        // console.log(DeployLink);
-                        // try {
-                        //     if(DeployLink){
-                        //         navigator.clipboard.writeText(`https://${DeployLink}.csb.app/`);
-                        //         toast.success("Copied the Deploy url!!",{
-                        //             description:"Now, Share the url to visit the Site from any Device!!"
-                        //         });
-                        //     }
-                        // }catch(error){
-                        //     console.log("Not Copied", error);
-                        // }
-                    }}>
+                    <Rocket
+                        className='hover:bg-white hover:text-black cursor-pointer rounded-md'
+                        onClick={() => {
+                            setAction({
+                                actionType: ActionType.deploy,
+                                timestamp: Date.now()
+                            })
+                            // setActivetab('preview');
+                            // console.log(DeployLink);
+                            // try {
+                            //     if(DeployLink){
+                            //         navigator.clipboard.writeText(`https://${DeployLink}.csb.app/`);
+                            //         toast.success("Copied the Deploy url!!",{
+                            //             description:"Now, Share the url to visit the Site from any Device!!"
+                            //         });
+                            //     }
+                            // }catch(error){
+                            //     console.log("Not Copied", error);
+                            // }
+                        }}>
                     </Rocket>
                 </div>
             </div>
