@@ -18,7 +18,7 @@ export function AppSidebar() {
             <Link href={'/'}>
                 <div className='text-black text-xl font-semibold dark:text-white hover:cursor-pointer p-2 m-4'>
                     <span className='flex justify-center items-center gap-2'>
-                        <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40} />  Mythicals.tech
+                        <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40} />  𝓜𝔂𝓽𝓱𝓲𝓬𝓪𝓵𝓼.𝓽𝓮𝓬𝓱
                     </span>
                 </div>
             </Link>

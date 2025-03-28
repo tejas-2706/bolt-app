@@ -50,7 +50,8 @@ const Navbar = () => {
             <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer hidden sm:block'
                 onClick={() => { router.push('/'); setRefresh((prev)=>prev+1) }}>
                     <span className='flex justify-center items-center gap-2'>
-                <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40}/>  Mythicals.tech
+                        {/* Script Bold Italic Font */}
+                <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40}/>  𝓜𝔂𝓽𝓱𝓲𝓬𝓪𝓵𝓼.𝓽𝓮𝓬𝓱 
                     </span>
             </div>
             <div className='sm:hidden'
