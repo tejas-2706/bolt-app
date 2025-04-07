@@ -28,7 +28,8 @@ function SandPackPreviewClient() {
             }
         }else{
             toast.error("Please Run the Project !!",{
-                description:"Please Run the Project Explicitly from Code Section!"
+                description:"Please Run the Project Explicitly from Code Section!",
+                closeButton:true
             });
         }
     }

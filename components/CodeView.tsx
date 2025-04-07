@@ -88,7 +88,9 @@ function CodeView() {
 
             setLoading(false);
         } catch (error) {
-            toast.error("Error occured while generating the code !! Retry again !!")
+            toast.error("Error occured while generating the code !! Retry again !!", {
+                closeButton:true
+            })
             console.log("Error occured while generating the code - ", error);
         }
     };

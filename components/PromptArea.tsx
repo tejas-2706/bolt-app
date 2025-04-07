@@ -32,15 +32,17 @@ export function PromptArea() {
       setSignInVisible(true);
       toast.warning("Please Login!!", {
         description: "Login to use the App",
+        closeButton: true,
         action: {
           label: "Login",
-          onClick: () => { setSignInVisible(true) }
+          onClick: () => { setSignInVisible(true)}
         }
       });
     }
     if (Number(user_token) < 10 && user.isSignedIn) {
       toast.warning("Insufficient Token", {
         description: "Please Purchase Some Tokens to continue !!",
+        closeButton: true,
         action: {
           label: "Buy Token",
           onClick: () => { router.push('/pricing') }
