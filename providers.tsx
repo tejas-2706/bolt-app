@@ -32,7 +32,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
 
                 <Navbar />
                 {children}
-                <Toaster />
+                <Toaster theme="system"/>
             </Provider>
         </ThemeProvider>
         </PayPalScriptProvider>
