@@ -29,6 +29,7 @@ function CodeView() {
     const user_token = useAtomValue(usertokenAtom);
     const user_Id = useAtomValue(useridAtom);
     const [action, setAction] = useAtom(ActionAtom);
+    const [isLoadingFiles, setIsLoadingFiles] = useState(false);
     // const DeployLink = useAtomValue(DeployLinkAtom);
     // const GenerateCode = async() => {
     //     const PROMPT = JSON.stringify(promptvalue) + " " + Prompt.CODE_GEN_PROMPT
@@ -74,18 +75,18 @@ function CodeView() {
             console.log(update_files.data);
 
             // CHECKING TOKEN CALCULATION USED
-            const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
-            console.log(user_token);
-            console.log(Number(countToken(JSON.stringify(Ai_Response))));
-
-            console.log("Sending to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
-            if (calculated_token) {
-                console.log("Inside to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
-                await axios.post('/api/user-tokens', {
-                    token: calculated_token
-                });
+            if (user_token > 0){
+                const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
+                console.log("Token Value from COdeview = ", user_token);
+                console.log("COUNTED AI CODE RESPONSE TOKENS ARE = ", Number(countToken(JSON.stringify(Ai_Response))));
+                console.log("Sending to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+                if (calculated_token) {
+                    console.log("Inside to codeview /api/user-tokens:", { userId: user_Id, token: calculated_token });
+                    await axios.post('/api/user-tokens', {
+                        token: calculated_token
+                    });
+                }
             }
-
             setLoading(false);
         } catch (error) {
             toast.error("Error occured while generating the code !! Retry again !!", {
@@ -95,12 +96,14 @@ function CodeView() {
         }
     };
     const GetFiles = async () => {
+        setIsLoadingFiles(true);
         setLoading(true)
         const ChatFiles = await axios.get(`/api/code-files?chatId=${params.id}`);
         const mergedFiles = { ...Lookup.DEFAULT_FILE, ...ChatFiles.data.filesData };
         console.log("Dtaa", ChatFiles.data.filesData);
         setFiles(mergedFiles);
         setLoading(false)
+        setIsLoadingFiles(false);
     }
     useEffect(() => {
         if (params.id) {
@@ -116,6 +119,9 @@ function CodeView() {
         if (isInitialMount.current) {
             isInitialMount.current = false;
             return; // Do nothing on first render
+        }
+        if(isLoadingFiles){
+            return;
         }
         if (promptvalue.length > 0) {
             const role = promptvalue[promptvalue?.length - 1].role
