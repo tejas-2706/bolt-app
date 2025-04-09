@@ -35,7 +35,7 @@ export function PromptArea() {
         closeButton: true,
         action: {
           label: "Login",
-          onClick: () => { setSignInVisible(true)}
+          onClick: () => { setSignInVisible(true) }
         }
       });
     }
@@ -83,7 +83,13 @@ export function PromptArea() {
   }, []);
 
   return (
-    <div>
+    <div
+    className="relative w-full max-w-xl p-4 sm:p-6 rounded-lg"
+    style={{
+      background: 'radial-gradient(circle at 50% 50%, hsl(270, 80%, 40%), transparent 70%)',
+      opacity: 0.75,
+    }}
+    >
       {isSignInVisible ? (
         <div>
           <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible} />
@@ -99,20 +105,21 @@ export function PromptArea() {
               style={{
                 background: `conic-gradient(from var(--border-angle) at 50% 50%, black, purple, black)`
               }}
-            >
+              >
               <Textarea className="h-[120px] dark:bg-neutral-900 bg-gray-100 rounded-lg border border-transparent focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none" placeholder="Type your prompt here." id="message"
                 value={textvalue}
                 onChange={(e) => { setTextvalue(e.target.value) }}
-              />
+                />
             </div>
           </div>
           <div className="flex items-center sm:mt-2 mt-16">
             <Button className={`hover:cursor-pointer ${!textvalue ? 'hidden' : ''}`}
               disabled={isDisable}
               onClick={() => PromptHandler()}
-            ><ArrowRight />
+              ><ArrowRight />
             </Button>
           </div>
+
         </div>}
     </div>
   )
