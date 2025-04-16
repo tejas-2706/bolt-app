@@ -97,7 +97,7 @@ export function PromptArea() {
             <div
               className="h-[123px] animate-rotate-border shadow-lg rounded-lg p-px"
               style={{
-                background: `conic-gradient(from var(--border-angle) at 50% 50%, black, purple, black)`
+                background: `conic-gradient(from var(--border-angle) at 50% 50%, black, #5a00b2, black)`
               }}
             >
               <Textarea className="h-[120px] dark:bg-neutral-900 bg-gray-100 rounded-lg border border-transparent focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none" placeholder="Type your prompt here." id="message"

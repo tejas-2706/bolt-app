@@ -46,7 +46,7 @@ const Navbar = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn, user])
     return (
-        <div className='flex justify-between p-6'>
+        <div className='flex justify-between p-6 bg-gradient-to-b from-[#5a00b2]/50 to-transparent'>
             <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer hidden sm:block'
                 onClick={() => { router.push('/'); setRefresh((prev)=>prev+1) }}>
                     <span className='flex justify-center items-center gap-2'>
@@ -73,13 +73,13 @@ const Navbar = () => {
                     })}}
                     className='cursor-pointer'
                     >Deploy</Button>} */}
-                    {isSignedIn&& <Button variant={"outline"} 
+                    {isSignedIn&& <Button variant={"ghost"} 
                     onClick={()=>{router.push('/pricing')}}
-                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer'
+                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '
                     ><div className='sm:hidden'><Wallet2Icon/></div>
                     <div className='hidden sm:block'>My Subscription</div>
                     </Button>}
-                    {isSignedIn&&<Button variant={"ghost"}>{Fetchingtoken? <Loader2Icon className='animate-spin'/> : UserToken}</Button>}
+                    {isSignedIn&&<Button variant={"link"}>{Fetchingtoken? <Loader2Icon className='animate-spin'/> : UserToken}</Button>}
                 </div>
                 <div className='px-2'>
                     <SignedOut>
