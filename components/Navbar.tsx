@@ -8,20 +8,19 @@ import {
     UserButton,
     useUser,
 } from '@clerk/nextjs'
-import Colors from '@/data/Colors'
+// import Colors from '@/data/Colors'
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2Icon, Menu, Wallet2Icon } from 'lucide-react'
+import { Loader2Icon, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
