@@ -143,17 +143,23 @@ const Navbar = () => {
                         </DropdownMenuItem>
                         {!isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
-                            <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline">My Subscription</Link>
+                            <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">My Subscription</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link href={'/support'} className="w-full px-2 py-1 hover:underline">Support</Link>
+                            <Link href={'/support'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Support</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             {isSignedIn && <Button variant={"link"}>
                                 {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}
                             </Button>}
+                        </DropdownMenuItem>
+                        {isSignedIn ? <DropdownMenuSeparator /> : null}
+                        <DropdownMenuItem asChild >
+                            {isSignedIn ?
+                            <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Manage Account</Link>  : null
+                            }
                         </DropdownMenuItem>
                         {isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
