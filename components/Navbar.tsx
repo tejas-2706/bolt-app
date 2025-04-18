@@ -14,8 +14,18 @@ import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2Icon, Wallet2Icon } from 'lucide-react'
+import { Loader2Icon, Menu, Wallet2Icon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
     const [UserId, setUserId] = useAtom(useridAtom);
@@ -25,7 +35,7 @@ const Navbar = () => {
     const hasFetchedRef = useRef(false);
     const setAction = useSetAtom(ActionAtom);
     const setRefresh = useSetAtom(refreshChatsAtom);
-    const params = useParams<{id:string}>();
+    const params = useParams<{ id: string }>();
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
             hasFetchedRef.current = true;
@@ -47,25 +57,37 @@ const Navbar = () => {
     }, [isSignedIn, user])
     return (
         <div className='flex justify-between p-6 bg-gradient-to-b from-[#5a00b2]/50 to-transparent'>
-            <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer hidden sm:block'
-                onClick={() => { router.push('/'); setRefresh((prev)=>prev+1) }}>
+            <div className='flex justify-center items-center gap-8'>
+                <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer'
+                    onClick={() => { router.push('/'); setRefresh((prev) => prev + 1) }}>
                     <span className='flex justify-center items-center gap-2'>
-                        {/* Script Bold Italic Font */}
-                <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40}/>  𝓜𝔂𝓽𝓱𝓲𝓬𝓪𝓵𝓼.𝓽𝓮𝓬𝓱 
+                        {/* Script Bold Italic Font   𝓜𝔂𝓽𝓱𝓲𝓬𝓪𝓵𝓼.𝓽𝓮𝓬𝓱  */}
+                        <Image src={'/mythicals-removebg.png'} alt='logo' width={40} height={40} />
+                        <span className='hidden sm:block'>mythicals.tech</span>
                     </span>
+                </div>
+                <div className='text-sm font-semi-bold cursor-pointer hidden sm:block'>
+                    <Link href={'/support'}>Support</Link>
+                </div>
+                <div className='text-sm font-semi-bold cursor-pointer hidden sm:block'>
+                    {isSignedIn && <Link href={'/pricing'}>My Subscription</Link>}
+                </div>
             </div>
-            <div className='sm:hidden'
-            onClick={() => { router.push('/') }}>
-                <Image src={'/mythicals.jpg'} alt='logo' width={40} height={40}/>
-            </div>
+            {/* <div className='sm:hidden'
+                onClick={() => { router.push('/') }}>
+                <Image src={'/mythicals.jpg'} alt='logo' width={40} height={40} />
+            </div> */}
+            {/* other side */}
             <div className='flex gap-2 justify-center items-center'>
                 <div className='flex gap-2'>
                     {/* <Button variant={"outline"}>{UserId ? UserId : "Loading ID..."}</Button> */}
-                    {isSignedIn && params.id && <Button onClick={()=>{setAction({
-                        actionType:ActionType.export,
-                        timestamp:Date.now()
-                    })}}
-                    className='cursor-pointer'
+                    {isSignedIn && params.id && <Button onClick={() => {
+                        setAction({
+                            actionType: ActionType.export,
+                            timestamp: Date.now()
+                        })
+                    }}
+                        className='cursor-pointer'
                     >Export</Button>}
                     {/* {isSignedIn && params.id &&<Button onClick={()=>{setAction({
                         actionType:ActionType.deploy,
@@ -73,28 +95,71 @@ const Navbar = () => {
                     })}}
                     className='cursor-pointer'
                     >Deploy</Button>} */}
-                    {isSignedIn&& <Button variant={"ghost"} 
-                    onClick={()=>{router.push('/pricing')}}
-                    className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer '
-                    ><div className='sm:hidden'><Wallet2Icon/></div>
-                    <div className='hidden sm:block'>My Subscription</div>
-                    </Button>}
-                    {isSignedIn&&<Button variant={"link"}>{Fetchingtoken? <Loader2Icon className='animate-spin'/> : UserToken}</Button>}
+
+                    {/* sudssssss */}
+
+                    {/* {isSignedIn && <Button variant={"ghost"}
+                        onClick={() => { router.push('/pricing') }}
+                        className='dark:hover:bg-white dark:hover:text-black dark:shadow-white shadow-xs hover:bg-black hover:text-white cursor-pointer hidden sm:block'
+                    >
+                        <div className='sm:hidden'><Wallet2Icon /></div>
+                        <div className='hidden sm:block'>My Subscription</div>
+                    </Button>} */}
+                    {isSignedIn && <Button variant={"link"} className='hidden sm:block' >{Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}</Button>}
                 </div>
                 <div className='px-2'>
                     <SignedOut>
-                        <div className='flex gap-4'>
-                            <SignInButton><Button variant={"outline"} className='hover:cursor-pointer'>SignIn</Button></SignInButton>
-                            <SignUpButton><Button style={{ backgroundColor: Colors.BLUE }} className='hover:cursor-pointer'>SignUp</Button></SignUpButton>
+                        <div className='hidden sm:block'>
+                            <SignInButton><Button variant={"outline"} size={"sm"} className='hover:cursor-pointer mx-2'>Sign in</Button></SignInButton>
+                            <SignUpButton><Button variant={"default"} size={"sm"} className='hover:cursor-pointer '>Sign up</Button></SignUpButton>
                         </div>
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
+                        <div className='hidden sm:block pt-1'>
+                            <UserButton />
+                        </div>
                     </SignedIn>
                 </div>
-                <div>
+                <div className='hidden sm:block'>
                     <ModeToggle />
                 </div>
+            </div>
+            <div className='flex sm:hidden justify-center items-center gap-4'>
+                <SignedIn>
+                    <div className='sm:hidden pt-1'>
+                        <UserButton />
+                    </div>
+                </SignedIn>
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Menu size={30} /></DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <SignedOut>
+                                <div className='flex gap-4'>
+                                    <SignInButton><Button variant={"outline"} size={"sm"} className='hover:cursor-pointer '>Sign in</Button></SignInButton>
+                                    <SignUpButton><Button variant={"default"} size={"sm"} className='hover:cursor-pointer '>Sign up</Button></SignUpButton>
+                                </div>
+                            </SignedOut>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild >
+                            <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline">My Subscription</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href={'/support'} className="w-full px-2 py-1 hover:underline">Support</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            {isSignedIn && <Button variant={"link"}>
+                                {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}
+                            </Button>}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <ModeToggle />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     )
