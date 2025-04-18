@@ -91,7 +91,7 @@ export function PromptArea() {
       ) :
         <div className="flex sm:w-[530px] gap-2 px-4 my-40">
           <div className="w-full">
-            <h2 className="text-4xl pb-4">{Lookup.HERO_HEADING}</h2>
+            <h2 className="font-bold text-4xl pb-4">{Lookup.HERO_HEADING}</h2>
             <h2 className="text-black dark:text-gray-400 pb-4">{Lookup.HERO_DESC}</h2>
             {/* <div className="h-[123px] animate-rotate-border bg-purple-500 shadow-lg rounded-lg bg-conic/[from_var(--border-angle)] from-black via-purple-500 to-black p-px"> */}
             <div
