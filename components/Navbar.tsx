@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
     SignInButton,
+    SignOutButton,
     SignUpButton,
     SignedIn,
     SignedOut,
@@ -130,7 +131,7 @@ const Navbar = () => {
                     </div>
                 </SignedIn>
                 <DropdownMenu>
-                    <DropdownMenuTrigger><Menu size={30} /></DropdownMenuTrigger>
+                    <DropdownMenuTrigger><Menu size={30} className='cursor-pointer' /></DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem asChild>
                             <SignedOut>
@@ -140,7 +141,7 @@ const Navbar = () => {
                                 </div>
                             </SignedOut>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        {!isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
                             <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline">My Subscription</Link>
                         </DropdownMenuItem>
@@ -154,8 +155,14 @@ const Navbar = () => {
                                 {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}
                             </Button>}
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <ModeToggle />
+                        {isSignedIn ? <DropdownMenuSeparator /> : null}
+                        <DropdownMenuItem asChild >
+                            {isSignedIn ?
+                                <span className='flex gap-4 focus:bg-transparent'>
+                                    <SignOutButton><Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer '>Sign out</Button></SignOutButton>
+                                    <ModeToggle />
+                                </span>
+                                : <ModeToggle />}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
