@@ -7,6 +7,7 @@ import {
     SignedIn,
     SignedOut,
     UserButton,
+    UserProfile,
     useUser,
 } from '@clerk/nextjs'
 // import Colors from '@/data/Colors'
@@ -15,7 +16,7 @@ import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2Icon, Menu } from 'lucide-react'
+import { Loader2Icon, LogOut, Menu, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -25,6 +26,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu'
 
 const Navbar = () => {
     const { isSignedIn, user } = useUser();
@@ -116,7 +118,49 @@ const Navbar = () => {
                     </SignedOut>
                     <SignedIn>
                         <div className='hidden sm:block pt-1'>
-                            <UserButton />
+
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className='outline-none'><UserButton /></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel asChild 
+                                    className='py-2 p-0'
+                                    >
+                                        {isSignedIn && <Button variant={"ghost"}>
+                                            <div className='flex gap-2'>
+                                                <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full'/>
+                                            <div className='flex flex-col justify-center items-start '>    
+                                                <h2>{user.firstName} {user.lastName}</h2>
+                                                <h2>{user.emailAddresses[0]?.emailAddress}</h2>
+                                            </div>
+                                            </div>
+                                        </Button>}
+                                    </DropdownMenuLabel>
+                                    {isSignedIn ? <DropdownMenuSeparator /> : null}
+                                    <DropdownMenuItem asChild 
+                                    className='px-4'
+                                    >
+                                        {isSignedIn ?
+                                            <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><Settings className='mr-1'/> Manage Account</Link> : null
+                                        }
+                                    </DropdownMenuItem>
+                                    {isSignedIn ? <DropdownMenuSeparator /> : null}
+                                    <DropdownMenuItem asChild
+                                    className='px-4'
+                                    >
+                                        {isSignedIn &&
+                                            <SignOutButton>
+                                                <span>
+                                                <LogOut className='mr-1'/> 
+                                                <Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer px-8'>Sign out</Button>
+                                                </span>
+                                            </SignOutButton>
+                                        }
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+
                         </div>
                     </SignedIn>
                 </div>
@@ -131,7 +175,7 @@ const Navbar = () => {
                     </div>
                 </SignedIn>
                 <DropdownMenu>
-                    <DropdownMenuTrigger><Menu size={30} className='cursor-pointer' /></DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='outline-none'><Menu size={30} className='cursor-pointer' /></DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem asChild>
                             <SignedOut>
@@ -158,7 +202,7 @@ const Navbar = () => {
                         {isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
                             {isSignedIn ?
-                            <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Manage Account</Link>  : null
+                                <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Manage Account</Link> : null
                             }
                         </DropdownMenuItem>
                         {isSignedIn ? <DropdownMenuSeparator /> : null}
