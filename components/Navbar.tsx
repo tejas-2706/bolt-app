@@ -7,7 +7,6 @@ import {
     SignedIn,
     SignedOut,
     UserButton,
-    UserProfile,
     useUser,
 } from '@clerk/nextjs'
 // import Colors from '@/data/Colors'
