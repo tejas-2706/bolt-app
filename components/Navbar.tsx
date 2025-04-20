@@ -15,7 +15,7 @@ import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
 import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2Icon, LogOut, Menu, Settings } from 'lucide-react'
+import { Atom, Coins, CreditCard, Loader2Icon, LogOut, Menu, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -106,7 +106,9 @@ const Navbar = () => {
                         <div className='sm:hidden'><Wallet2Icon /></div>
                         <div className='hidden sm:block'>My Subscription</div>
                     </Button>} */}
-                    {isSignedIn && <Button variant={"link"} className='hidden sm:block' >{Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}</Button>}
+                    {isSignedIn && <Button variant={"link"} className='hidden sm:block cursor-pointer' title='tokens left' >
+                        {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}
+                    </Button>}
                 </div>
                 <div className='px-2'>
                     <SignedOut>
@@ -122,36 +124,36 @@ const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger className='outline-none'><UserButton /></DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                    <DropdownMenuLabel asChild 
-                                    className='py-2 p-0'
+                                    <DropdownMenuLabel asChild
+                                        className='py-2 p-0'
                                     >
                                         {isSignedIn && <Button variant={"ghost"}>
                                             <div className='flex gap-2'>
-                                                <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full'/>
-                                            <div className='flex flex-col justify-center items-start '>    
-                                                <h2>{user.firstName} {user.lastName}</h2>
-                                                <h2>{user.emailAddresses[0]?.emailAddress}</h2>
-                                            </div>
+                                                <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full' />
+                                                <div className='flex flex-col justify-center items-start '>
+                                                    <h2>{user.firstName} {user.lastName}</h2>
+                                                    <h2>{user.emailAddresses[0]?.emailAddress}</h2>
+                                                </div>
                                             </div>
                                         </Button>}
                                     </DropdownMenuLabel>
                                     {isSignedIn ? <DropdownMenuSeparator /> : null}
-                                    <DropdownMenuItem asChild 
-                                    className='px-4'
+                                    <DropdownMenuItem asChild
+                                        className='px-4'
                                     >
                                         {isSignedIn ?
-                                            <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><Settings className='mr-1'/> Manage Account</Link> : null
+                                            <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><Settings className='mr-1' /> Manage Account</Link> : null
                                         }
                                     </DropdownMenuItem>
                                     {isSignedIn ? <DropdownMenuSeparator /> : null}
                                     <DropdownMenuItem asChild
-                                    className='px-4'
+                                        className='px-4'
                                     >
                                         {isSignedIn &&
                                             <SignOutButton>
                                                 <span>
-                                                <LogOut className='mr-1'/> 
-                                                <Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer px-8'>Sign out</Button>
+                                                    <LogOut className='mr-1' />
+                                                    <Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer px-8'>Sign out</Button>
                                                 </span>
                                             </SignOutButton>
                                         }
@@ -168,14 +170,28 @@ const Navbar = () => {
                 </div>
             </div>
             <div className='flex sm:hidden justify-center items-center gap-4'>
-                <SignedIn>
+                {/* <SignedIn>
                     <div className='sm:hidden pt-1'>
-                        <UserButton />
+                        {isSignedIn && <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full' />}
                     </div>
-                </SignedIn>
+                </SignedIn> */}
                 <DropdownMenu>
                     <DropdownMenuTrigger className='outline-none'><Menu size={30} className='cursor-pointer' /></DropdownMenuTrigger>
                     <DropdownMenuContent>
+                        <DropdownMenuLabel asChild
+                            className='py-2 p-0'
+                        >
+                            {isSignedIn && <Button variant={"ghost"}>
+                                <div className='flex gap-2'>
+                                    <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full' />
+                                    <div className='flex flex-col justify-center items-start '>
+                                        <h2>{user.firstName} {user.lastName}</h2>
+                                        <h2>{user.emailAddresses[0]?.emailAddress}</h2>
+                                    </div>
+                                </div>
+                            </Button>}
+                        </DropdownMenuLabel>
+                        {isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild>
                             <SignedOut>
                                 <div className='flex gap-4'>
@@ -186,29 +202,34 @@ const Navbar = () => {
                         </DropdownMenuItem>
                         {!isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
-                            <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">My Subscription</Link>
+                            <Link href={'/pricing'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><CreditCard /> My Subscription</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link href={'/support'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Support</Link>
+                            <Link href={'/support'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><Atom /> Support</Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            {isSignedIn && <Button variant={"link"}>
-                                {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : UserToken}
+                            {isSignedIn && <Button variant={"link"} size={"sm"} className='w-full justify-start'>
+                                <Coins /> {Fetchingtoken ? <Loader2Icon className='animate-spin' /> : <div>{UserToken} <span className='text-gray-400 text-xs'>tokens left</span></div>}
                             </Button>}
                         </DropdownMenuItem>
                         {isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
                             {isSignedIn ?
-                                <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer">Manage Account</Link> : null
+                                <Link href={'/user'} className="w-full px-2 py-1 hover:underline hover:cursor-pointer"><Settings className='mr-1' /> Manage Account</Link> : null
                             }
                         </DropdownMenuItem>
                         {isSignedIn ? <DropdownMenuSeparator /> : null}
                         <DropdownMenuItem asChild >
                             {isSignedIn ?
                                 <span className='flex gap-4 focus:bg-transparent'>
-                                    <SignOutButton><Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer '>Sign out</Button></SignOutButton>
+                                    <SignOutButton>
+                                        <span className='flex justify-center items-center gap-2'>
+                                            <LogOut className='mr-1' />
+                                            <Button variant={"destructive"} size={"sm"} className='hover:cursor-pointer px-8'>Sign out</Button>
+                                        </span>
+                                    </SignOutButton>
                                     <ModeToggle />
                                 </span>
                                 : <ModeToggle />}
