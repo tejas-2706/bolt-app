@@ -13,8 +13,8 @@ import {
 import { Button } from './ui/button'
 import { ModeToggle } from './ModeToggle'
 import { useAtom, useSetAtom } from 'jotai'
-import { ActionAtom, ActionType, refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
-import { useParams, useRouter } from 'next/navigation'
+import { refreshChatsAtom, useridAtom, usertokenAtom } from '@/store/atoms/details'
+import { useRouter } from 'next/navigation'
 import { Atom, Coins, CreditCard, Loader2Icon, LogOut, Menu, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -34,9 +34,9 @@ const Navbar = () => {
     const [Fetchingtoken, setFetchingtoken] = useState(true);
     const router = useRouter();
     const hasFetchedRef = useRef(false);
-    const setAction = useSetAtom(ActionAtom);
+    // const setAction = useSetAtom(ActionAtom);
     const setRefresh = useSetAtom(refreshChatsAtom);
-    const params = useParams<{ id: string }>();
+    // const params = useParams<{ id: string }>();
     useEffect(() => {
         if (!hasFetchedRef.current && isSignedIn && user) {
             hasFetchedRef.current = true;
