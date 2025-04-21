@@ -35,7 +35,7 @@ export function PromptArea() {
         closeButton: true,
         action: {
           label: "Login",
-          onClick: () => { setSignInVisible(true)}
+          onClick: () => { setSignInVisible(true) }
         }
       });
     }
@@ -88,7 +88,7 @@ export function PromptArea() {
         <div>
           <AuthPopUp isSignInVisible={isSignInVisible} setSignInVisible={setSignInVisible} />
         </div>
-      ) :
+      ) :       
         <div className="flex sm:w-[530px] gap-2 px-4 my-40">
           <div className="w-full">
             <h2 className="font-bold text-4xl pb-4">{Lookup.HERO_HEADING}</h2>
@@ -113,7 +113,8 @@ export function PromptArea() {
             ><ArrowRight />
             </Button>
           </div>
-        </div>}
+        </div>
+        }
     </div>
   )
 }

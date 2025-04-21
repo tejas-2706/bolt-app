@@ -57,7 +57,7 @@ const Navbar = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn, user])
     return (
-        <div className='flex justify-between p-6 bg-gradient-to-b from-[#5a00b2]/50 to-transparent'>
+        <div className='flex justify-between py-6 px-3 bg-gradient-to-b from-[#5a00b2]/50 to-transparent'>
             <div className='flex justify-center items-center gap-8'>
                 <div className='text-black text-xl font-bold dark:text-white hover:cursor-pointer'
                     onClick={() => { router.push('/'); setRefresh((prev) => prev + 1) }}>
@@ -74,6 +74,7 @@ const Navbar = () => {
                     {isSignedIn && <Link href={'/pricing'}>My Subscription</Link>}
                 </div>
             </div>
+            
             {/* <div className='sm:hidden'
                 onClick={() => { router.push('/') }}>
                 <Image src={'/mythicals.jpg'} alt='logo' width={40} height={40} />
@@ -82,14 +83,17 @@ const Navbar = () => {
             <div className='flex gap-2 justify-center items-center'>
                 <div className='flex gap-2'>
                     {/* <Button variant={"outline"}>{UserId ? UserId : "Loading ID..."}</Button> */}
-                    {isSignedIn && params.id && <Button onClick={() => {
+
+                    {/* Export btn */}
+                    {/* {isSignedIn && params.id && <Button onClick={() => {
                         setAction({
                             actionType: ActionType.export,
                             timestamp: Date.now()
                         })
                     }}
                         className='cursor-pointer'
-                    >Export</Button>}
+                    >Export</Button>} */}
+                    
                     {/* {isSignedIn && params.id &&<Button onClick={()=>{setAction({
                         actionType:ActionType.deploy,
                         timestamp:Date.COdeviewnow()
@@ -170,13 +174,10 @@ const Navbar = () => {
                 </div>
             </div>
             <div className='flex sm:hidden justify-center items-center gap-4'>
-                {/* <SignedIn>
-                    <div className='sm:hidden pt-1'>
-                        {isSignedIn && <Image src={user.imageUrl} alt='profile image' width={35} height={2} className='rounded-full' />}
-                    </div>
-                </SignedIn> */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger className='outline-none'><Menu size={30} className='cursor-pointer' /></DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='outline-none'>
+                        {isSignedIn? <UserButton/> : <Menu size={30} className='cursor-pointer' />}
+                    </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel asChild
                             className='py-2 p-0'

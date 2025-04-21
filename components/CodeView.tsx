@@ -17,6 +17,7 @@ import { useTheme } from 'next-themes';
 import { countToken } from './ChatSidebar';
 import SandPackPreviewClient from './SandPackPreviewClient';
 import { toast } from 'sonner';
+import { Button } from './ui/button';
 function CodeView() {
     const params = useParams<{ tag: string; id: string }>();
     const [activetab, setActivetab] = useState('code');
@@ -75,7 +76,7 @@ function CodeView() {
             console.log(update_files.data);
 
             // CHECKING TOKEN CALCULATION USED
-            if (user_token > 0){
+            if (user_token > 0) {
                 const calculated_token = Number(user_token) - Number(countToken(JSON.stringify(Ai_Response)));
                 console.log("Token Value from COdeview = ", user_token);
                 console.log("COUNTED AI CODE RESPONSE TOKENS ARE = ", Number(countToken(JSON.stringify(Ai_Response))));
@@ -90,7 +91,7 @@ function CodeView() {
             setLoading(false);
         } catch (error) {
             toast.error("Error occured while generating the code !! Retry again !!", {
-                closeButton:true
+                closeButton: true
             })
             console.log("Error occured while generating the code - ", error);
         }
@@ -120,7 +121,7 @@ function CodeView() {
             isInitialMount.current = false;
             return; // Do nothing on first render
         }
-        if(isLoadingFiles){
+        if (isLoadingFiles) {
             return;
         }
         if (promptvalue.length > 0) {
@@ -149,7 +150,7 @@ function CodeView() {
                         onClick={() => { setActivetab('preview') }}
                         className={`text-sm cursor-pointer ${activetab == 'preview' && 'dark:bg-purple-500 bg-black text-white opacity-80 p-1 px-2 rounded-full'}`}>Preview</h2>
                 </div>
-                <div>
+                <div className='flex items-center gap-2'>
                     <Rocket
                         className='hover:bg-white hover:text-black cursor-pointer rounded-md'
                         onClick={() => {
@@ -171,6 +172,14 @@ function CodeView() {
                             // }
                         }}>
                     </Rocket>
+                    {params.id && <Button variant={"default"} size={"sm"} onClick={() => {
+                        setAction({
+                            actionType: ActionType.export,
+                            timestamp: Date.now()
+                        })
+                    }}
+                        className='cursor-pointer'
+                    >Export</Button>}
                 </div>
             </div>
             <SandpackProvider
